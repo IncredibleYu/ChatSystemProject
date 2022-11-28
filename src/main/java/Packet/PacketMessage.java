@@ -1,13 +1,13 @@
 package Packet;
 import Message.Message;
 public class PacketMessage extends Packet{
-    private Message message;
-    public PacketMessage(String ipAddress, Message message1) {
-        super(ipAddress);
+    private String message;
+    public PacketMessage(String ipAddress, String message1) {
+        super(ipAddress, "");
         this.message = message1;
     }
 
-    public Message getMessage() {
+    public String getMessage() {
         return message;
     }
 }

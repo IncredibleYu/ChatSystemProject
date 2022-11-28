@@ -1,5 +1,6 @@
 package Thread;
 
+import Model.User;
 import Packet.Packet;
 
 import javax.swing.event.EventListenerList;
@@ -10,6 +11,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 public class ThreadUDPReceiver {
     private DatagramSocket socket;
@@ -18,7 +20,8 @@ public class ThreadUDPReceiver {
 
     public ThreadUDPReceiver() {
         this.stop = false;
-        listeners = new EventListenerList();
+        ArrayList<User> listMembers = new ArrayList<User>();
+
         try {
             this.socket = new DatagramSocket(1234);
         }catch (SocketException e){
@@ -28,7 +31,7 @@ public class ThreadUDPReceiver {
 
     public void run(){
         byte[] b = new byte[1024*10];
-        Packet p = null;
+        Packet p = new Packet("", "");
         while(!this.stop){
             DatagramPacket datagramPacket = new DatagramPacket(b, b.length);
             try {
@@ -36,11 +39,13 @@ public class ThreadUDPReceiver {
                 ByteArrayInputStream bais = new ByteArrayInputStream(datagramPacket.getData());
                 try {
                     ObjectInputStream ois = new ObjectInputStream(bais);
-                    p = (Packet) ois.readObject();
+
+                    p.setMessage((String) ois.readObject());
                 }catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                this.newMessageReceived(datagramPacket.getAddress(),p);
+                //this.newMessageReceived(datagramPacket.getAddress(),p);
+                System.out.println(p.getMessage());
             }catch (SocketException e) {
                 System.err.println("Socket closed");
             }catch (IOException e) {
@@ -64,7 +69,7 @@ public class ThreadUDPReceiver {
         this.stop = stop;
     }
 
-    public void addListener (Listener newlistener){
+    public void addListener (Listener newlistener) {
         this.listeners.add(Listener.class,newlistener);
     }
 
@@ -72,10 +77,9 @@ public class ThreadUDPReceiver {
         this.listeners.remove(Listener.class,oldlistener);
     }
 
-    public void closeSocket(){
+    public void closeSocket() {
         if (!this.socket.isClosed()){
             this.socket.close();
         }
     }
 }
-

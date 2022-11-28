@@ -51,7 +51,7 @@ public class ThreadUDPSender
 
 
     public static void broadcast(Packet p) throws IOException {
-        int port = 1235;
+        int port = 1234;
         byte[] b = new byte[1024*10];
 
         DatagramSocket senderSocket = new DatagramSocket();
@@ -60,7 +60,7 @@ public class ThreadUDPSender
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
             ObjectOutputStream os = new ObjectOutputStream(outputStream);
-            os.writeObject(p);
+            os.writeObject(p.getMessage());
             os.close();
             b = outputStream.toByteArray();
         }catch(IOException e){
