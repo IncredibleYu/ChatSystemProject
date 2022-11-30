@@ -1,1 +1,19 @@
 /.metadata/
+
+# Eclipse
+.classpath
+.project
+.settings/
+ 
+# Intellij
+.idea/
+*.iml
+*.iws
+*.class
+ 
+# Mac
+.DS_Store
+ 
+# Maven
+log/
+target/

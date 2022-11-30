@@ -1,12 +1,12 @@
 package Test;
 
-import java.io.IOException;
-import Thread.ThreadUDPReceiver;
+import Prococols.UDPClient;
 
 public class UDPClientTest {
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args)
     {
-        ThreadUDPReceiver myThread = new ThreadUDPReceiver();
-        myThread.run();
+        UDPClient myUDPClient = new UDPClient();
+        myUDPClient.run();
+        myUDPClient.closeConnection();
     }
 }

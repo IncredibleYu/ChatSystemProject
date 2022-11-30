@@ -1,4 +1,4 @@
-package Model;
+package Models;
 
 public class User {
     private int id;
@@ -14,35 +14,43 @@ public class User {
         this.port = port;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public String getPseudo() {
+    public String getPseudo()
+    {
         return pseudo;
     }
 
-    public String getAddressIP() {
+    public String getAddressIP()
+    {
         return addressIP;
     }
 
-    public int getPort() {
+    public int getPort()
+    {
         return port;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public void setPseudo(String pseudo) {
+    public void setPseudo(String pseudo)
+    {
         this.pseudo = pseudo;
     }
 
-    public void setAddressIP(String addressIP) {
+    public void setAddressIP(String addressIP)
+    {
         this.addressIP = addressIP;
     }
 
-    public void setPort(int port) {
+    public void setPort(int port)
+    {
         this.port = port;
     }
 
