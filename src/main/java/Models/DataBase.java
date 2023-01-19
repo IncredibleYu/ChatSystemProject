@@ -1,56 +1,31 @@
 package Models;
 
-import Controllers.Controller;
 import Controllers.UserManager;
 
 import java.sql.*;
 import java.util.*;
 
-public class DataBase
-{
-    private static Controller app;
+public class DataBase {
+    public static String url = "jdbc:sqlite:/home/yduan/4as7/JavaProjet/java.db";
 
-    //private String DB_URL = "jdbc:sqlite:/home/yduan/4as7/JavaProjet/java.db";
-    private String DB_URL = "jdbc:sqlite:/home/babonnea/Documents/4A/UML-Java/Java/ProgressProject/v2/JavaProjet/java.db";
-
-    /**
-     * Constructeur de la classe DataBase :
-     * @param app Controller
-     */
-    public DataBase(Controller app) {
-        this.setApp(app);
-        createNewDatabase();
-    }
-
-    public static Controller getApp()
-    {
-        return app;
-    }
-
-    public void setApp(Controller app) {
-        DataBase.app = app;
-    }
-
-    public void createNewDatabase()
-    {
-        Connection conn = null;
-        try {
-
-            // create a connection to the database
-            conn = DriverManager.getConnection(this.DB_URL);
-
+    public static void createNewDatabase() {
+        try (Connection conn = DriverManager.getConnection(url)) {
+            if (conn != null) {
+                DatabaseMetaData meta = conn.getMetaData();
+                System.out.println("The driver name is " + meta.getDriverName());
+                System.out.println("A new database has been created.");
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-
-    private Connection connect()
-    {
+    private Connection connectf() {
+        // SQLite connection string
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(this.DB_URL);
+            conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -58,38 +33,62 @@ public class DataBase
     }
 
 
+    public static void connect() {
+        Connection conn = null;
+        try {
+            // db parameters
+            // create a connection to the database
+            conn = DriverManager.getConnection(url);
 
-    public void createTable()
-    {
-        String sql= "CREATE TABLE conversation(\n"
-                + "    time text NOT NULL, \n"
+            System.out.println("Connection to SQLite has been established.");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    public static void createNewTable() {
+
+
+        // SQL statement for creating a new table
+        String sql = "CREATE TABLE IF NOT EXISTS conversation (\n"
+                + " time text NOT NULL, \n"
                 + " message text NOT NULL, \n"
                 + " senderPseudo varchar(30) NOT NULL, \n"
                 + " receiverPseudo varchar(30) NOT NULL"
                 + ");";
 
-        try (Connection conn = DriverManager.getConnection(this.DB_URL);
+        try (Connection conn = DriverManager.getConnection(url);
              Statement stmt = conn.createStatement()) {
+            // create a new table
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println("erreur at createTableConversation\n");
             System.out.println(e.getMessage());
         }
     }
+
     /**
      * Methode pour recuperer l'historique
      *
      */
-    public ArrayList<Message> recupHistory()
-    {
+    public ArrayList<Message> recupHistory() {
         ArrayList<Message> historique = new ArrayList<Message>();
-        String sql = "SELECT date, message, senderPseudo, receiverPseudo FROM conversation";
+        String sql = "SELECT time, message, senderPseudo, receiverPseudo FROM conversation";
 
 
-        try (Connection conn = this.connect(); Statement stmt  = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql))
-        {
-            while (rs.next())
-            {
+        try (Connection conn = this.connectf();
+
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+            while (rs.next()) {
                 String sender = rs.getString("senderPseudo");
                 String receiver = rs.getString("receiverPseudo");
                 Message msg= new Message();
@@ -99,9 +98,7 @@ public class DataBase
                 msg.setDestinataire(UserManager.getUserfromPseudo(receiver));
                 historique.add(msg);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.out.println("error at recupHistory\n");
             System.out.println(e.getMessage());
         }
@@ -117,8 +114,10 @@ public class DataBase
         String sql = "INSERT INTO conversation (date,message,senderPseudo, receiverPseudo) VALUES(?,?,?,?)";
 
 
-        try (Connection conn =  this.connect() ; PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn =  this.connectf() ;
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, msg.getDate());
+            pstmt.setString(2, msg.getContenu());
             pstmt.setString(3, msg.getEmetteur().getPseudo()); //J'envoie le message
             pstmt.setString(4, msg.getDestinataire().getPseudo()); //Je recois le message
 
@@ -127,6 +126,10 @@ public class DataBase
             System.out.println("error at addMessage\n");
             System.out.println(e.getMessage());
         }
+    }
+    public static void main(String[] args) {
+        createNewDatabase();
+        createNewTable();
     }
 
 }
