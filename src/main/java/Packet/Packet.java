@@ -1,24 +1,54 @@
 package Packet;
 
-public class Packet {
-    private String ipAddress;
-    private String broadcastMessage;
+import Controllers.UserManager;
+import Models.User;
 
-    public Packet(String ipAddress, String broadcastMessage){
-        this.ipAddress=ipAddress;
-        this.broadcastMessage = broadcastMessage;
-    }
+import java.io.Serializable;
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
+public class Packet implements Serializable
+{
+    private static final long serialVersionUID = -4507489610617393544L;
 
-    public String getMessage() {
-        return broadcastMessage;
-    }
+    private User user;
+    private String message;
 
-    public void setMessage(String newBroadCastMessage)
+    public Packet()
     {
-        this.broadcastMessage = newBroadCastMessage;
+    }
+
+    public Packet(User user)
+    {
+        this.user = user;
+    }
+
+    public Packet(String message)
+    {
+        this.message = message;
+    }
+
+    public Packet(String message, User myUser)
+    {
+        this.message = message;
+        this.user = myUser;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
+
+    public void setMessage(String message)
+    {
+        this.message = message;
     }
 }
