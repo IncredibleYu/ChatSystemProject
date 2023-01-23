@@ -123,7 +123,7 @@ public class TCPSender extends Thread
             e.printStackTrace();
         }
 
-        //getApp().getDb().addMessage(socket.getInetAddress().getHostAddress(), msg);
+        getApp().getDb().addMessage(msg);
 
         General.displayNotification(" vous a envoyé un message.",socket.getInetAddress().getHostAddress());
         General.display(msg.getEmetteur().getPseudo());
