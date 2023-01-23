@@ -89,6 +89,7 @@ public class General {
 
 
     public void initialize() {
+
         //frame General
         frame = new JFrame("ChatYourFriends");
         frame.setBackground(new Color(204, 204, 255));

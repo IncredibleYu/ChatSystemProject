@@ -3,6 +3,7 @@ package Controllers;
 import Models.DataBase;
 import Models.User;
 import Protocols.UDPReceiver;
+import Protocols.UDPSender;
 
 public class Controller {
 
@@ -11,6 +12,8 @@ public class Controller {
 
     private UserManager userManager;
     private UDPReceiver udpReceiver;
+
+    private UDPSender udpSender;
 
     public static int maxSessions;
 
@@ -50,6 +53,16 @@ public class Controller {
     public void setUDPReceiver(UDPReceiver udpReceiver)
     {
         this.udpReceiver = udpReceiver;
+    }
+
+    public UDPSender getUdpSender()
+    {
+        return udpSender;
+    }
+
+    public void setUdpSender(UDPSender udpSender)
+    {
+        this.udpSender = udpSender;
     }
 
     public UserManager getUserManager()

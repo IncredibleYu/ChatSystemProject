@@ -15,7 +15,10 @@ public class TestNouvelleApplication
 
         UDPSender udp = new UDPSender("CLIENT", app);
         udp.start();
-        udp.broadcast(new Packet());
+        app.setUdpSender(udp);
+        Packet packet = new Packet();
+        packet.setMessage("Presence");
+        udp.broadcast(packet);
         System.out.println("[SERVER] Broadcast envoyé");
 
         System.out.println("[SERVER] Waiting for response...");

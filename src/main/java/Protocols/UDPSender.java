@@ -69,18 +69,6 @@ public class UDPSender extends Thread
         }
     }
 
-    public static void envoiebroadcast(String broadcastMessage, int port) throws IOException {
-        for (InetAddress  addrbroadcast : listAllBroadcastAddresses()) {
-            DatagramSocket socket = new DatagramSocket();
-            socket.setBroadcast(true);
-            byte[] buffer = broadcastMessage.getBytes();
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, addrbroadcast, port);
-            //System.out.println("Envoi msg en broadcast to"+addrbroadcast);
-            socket.send(packet);
-            socket.close();
-        }
-    }
-
     public static List<InetAddress> listAllBroadcastAddresses() throws SocketException {
         List<InetAddress> broadcastList = new ArrayList<>();
         Enumeration<NetworkInterface> interfaces
@@ -117,7 +105,19 @@ public class UDPSender extends Thread
         }
     }
 
-    public void broadcast(Packet packet)
+    public static void envoiebroadcast(String broadcastMessage, int port) throws IOException {
+        for (InetAddress  addrbroadcast : listAllBroadcastAddresses()) {
+            DatagramSocket socket = new DatagramSocket();
+            socket.setBroadcast(true);
+            byte[] buffer = broadcastMessage.getBytes();
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, addrbroadcast, port);
+            //System.out.println("Envoi msg en broadcast to"+addrbroadcast);
+            socket.send(packet);
+            socket.close();
+        }
+    }
+
+    public static void broadcast(Packet packet)
     {
         try
         {
@@ -135,7 +135,9 @@ public class UDPSender extends Thread
 
             // send packet broadcast
             DatagramSocket senderSocket = new DatagramSocket();
+            senderSocket.setBroadcast(true);
             senderSocket.send(datagramPacket);
+            senderSocket.close();
 
         }
         catch (Exception e)

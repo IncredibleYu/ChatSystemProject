@@ -5,6 +5,7 @@ import Controllers.ControllerChat;
 import Controllers.UserManager;
 import Models.DataBase;
 import Models.User;
+import Packet.Packet;
 import Protocols.TCPServer;
 import Protocols.UDPReceiver;
 import Protocols.UDPSender;
@@ -157,6 +158,11 @@ public class AuthentificationView
 
                     udp.start();
                     tcp.start();
+
+                    Packet packet = new Packet();
+                    packet.setMessage("Pseudo");
+                    packet.setUser(myUser);
+                    app.getUdpSender().broadcast(packet);
 
                     new General(app);
 

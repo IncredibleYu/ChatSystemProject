@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import Controllers.*;
+import Packet.Packet;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -144,6 +145,10 @@ public class ChangerPseudo extends JFrame {
                     app.getActu().setPseudo(pseudo);
                     General.pseudoModif();
                     // Mettre ici la méthode pour envoyer le broadcast aux autres utilisateur pour signaler le changement de pseudo
+                    Packet packet = new Packet();
+                    packet.setMessage("Pseudo");
+                    packet.setUser(app.getActu());
+                    app.getUdpSender().broadcast(packet);
                     window.dispose();
                 }else {
                     JTextPane txtpnPseudonymAlreadyIn = new JTextPane();

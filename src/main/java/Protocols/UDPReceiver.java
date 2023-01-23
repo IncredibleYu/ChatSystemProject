@@ -152,7 +152,30 @@ public class UDPReceiver extends Thread {
                 ObjectInputStream ois = new ObjectInputStream(byteArrayInputStream);
 
                 Packet packet = (Packet) ois.readObject();
-                if (packet.getUser() != null)
+
+                String addressIP = datagramPacket.getAddress().getHostAddress();
+
+                // Envoie "je suis là"
+                if(packet.getMessage().equals("Presence"))
+                {
+                    packet.setUser(app.getActu());
+                    sendResponse(addressIP, packet);
+                }
+
+                // Met à jour l'annuaire
+                if(packet.getMessage().equals("Pseudo"))
+                {
+                    app.getUserManager().addMember(packet.getUser());
+                }
+
+                // Met à jour le pseudo dans l'annuaire
+                if(packet.getMessage().equals("ChangePseudo"))
+                {
+                    User user = app.getUserManager().getMemberByIP(addressIP);
+                    user.setPseudo(packet.getUser().getPseudo());
+                }
+
+                /*if (packet.getUser() != null)
                 {
                     System.out.println(packet.getUser().getPseudo());
                     app.getUserManager().addMember(packet.getUser());
@@ -174,7 +197,7 @@ public class UDPReceiver extends Thread {
                 sendResponse(addressIP, packet);
 
                 //this.newMessageReceived(datagramPacket.getAddress(),p);
-                //System.out.println(p.getMessage());
+                //System.out.println(p.getMessage());*/
 
             }
         }
