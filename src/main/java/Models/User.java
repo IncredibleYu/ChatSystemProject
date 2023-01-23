@@ -27,7 +27,7 @@ public class User  implements Serializable
      * 2) Constructeur d'un User
      * @param address ip de l'utilisateur
      * @param port port de l'utilisateur
-     * @param pseudo pseudo l'utilisateur
+     * @param pseudonym pseudo l'utilisateur
      */
     public User(String address, int port, String pseudonym) {
         this.setIP(address);

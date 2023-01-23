@@ -376,10 +376,10 @@ public class General {
         for (Message msg : history) {
 
             if (msg.getEmetteur().equals(getApp().getActu())) {
-                messages += "me: "+ msg.getData() + "  " + msg.getTime() + "  \n";
+                messages += "me: "+ msg.getData() + "  " + msg.getDate() + "  \n";
             }
             else {
-                messages += "                                                                                                     "+u2.getPseudo()+":" + msg.getData() + "  " + msg.getTime()+ "  \n";
+                messages += "                                                                                                     "+u2.getPseudo()+":" + msg.getData() + "  " + msg.getDate()+ "  \n";
 
             }
 
