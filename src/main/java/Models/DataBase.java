@@ -108,9 +108,10 @@ public class DataBase {
 
     /**
      * Methode pour ajouter un message a la table
+     * @param ip
      * @param msg String
      */
-    public void addMessage(Message msg) {
+    public void addMessage(String ip, Message msg) {
         String sql = "INSERT INTO conversation (date,message,senderPseudo, receiverPseudo) VALUES(?,?,?,?)";
 
 

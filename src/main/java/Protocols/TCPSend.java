@@ -84,9 +84,25 @@ public class TCPSend extends Thread{
         this.in = in;
     }
 
-    public void SendMessage(String data) {
 
+
+    /**Metode pour envoyer les messages**/
+
+    public void SendMessage(String data) {
+        Message msg = new Message(getApp().getActu(),getOtheruser(), data);
+        try
+        {
+            getOut().writeObject(msg.toString());
+            getApp().getDb().addMessage(getOtheruser().getIP(), msg);
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
+
+    /**Metode pour recevoir les messages**/
 
     public void run() {
         String data = null;
