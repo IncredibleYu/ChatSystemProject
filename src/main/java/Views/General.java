@@ -78,6 +78,7 @@ public class General {
     private static JEditorPane notifPane;
     private static JList<String> usersconnected;
     private TCPReceiver tcpListen;
+    private static boolean isStart = false;
 
     /**
      * Constructeur de la classe General
@@ -85,6 +86,7 @@ public class General {
     public General(Controller app) {
         setApp(app);
         initialize();
+        isStart = true;
     }
 
 
@@ -348,7 +350,10 @@ public class General {
      * Methode pour mettre a jour la liste des utilisateurs suite a la connexion/deconnexion d'un utilisateur
      */
     public static void miseAJourContact() {
-        usersconnected.setListData(getApp().getUserManager().getListPseudo());
+        if(isStart)
+        {
+            usersconnected.setListData(getApp().getUserManager().getListPseudo());
+        }
     }
 
     /**
