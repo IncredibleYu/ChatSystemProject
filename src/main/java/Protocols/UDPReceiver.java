@@ -179,9 +179,12 @@ public class UDPReceiver extends Thread {
                     if (packet.getMessage().equals("ChangePseudo"))
                     {
                         User user = app.getUserManager().getMemberByIP(addressIP);
+                        String oldPseudo = user.getPseudo();
+                        String newPseudo = packet.getUser().getPseudo();
+                        System.out.println(oldPseudo);
+                        user.setPseudo(newPseudo);
                         System.out.println(user.getPseudo());
-                        user.setPseudo(packet.getUser().getPseudo());
-                        System.out.println(user.getPseudo());
+                        getApp().getDb().updateMessages(oldPseudo, newPseudo);
                         General.miseAJourContact();
                     }
                 }
