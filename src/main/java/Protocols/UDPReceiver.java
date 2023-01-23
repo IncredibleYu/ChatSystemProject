@@ -156,26 +156,33 @@ public class UDPReceiver extends Thread {
 
                 String addressIP = datagramPacket.getAddress().getHostAddress();
 
-                // Envoie "je suis là"
-                if(packet.getMessage().equals("Presence"))
+                System.out.println(addressIP);
+                System.out.println(app.getActu().getIP());
+                if(!addressIP.equals(app.getActu().getIP()))
                 {
-                    packet.setUser(app.getActu());
-                    sendResponse(addressIP, packet);
-                }
+                    // Envoie "je suis là"
+                    if (packet.getMessage().equals("Presence"))
+                    {
+                        packet.setUser(app.getActu());
+                        sendResponse(addressIP, packet);
+                    }
 
-                // Met à jour l'annuaire
-                if(packet.getMessage().equals("Pseudo"))
-                {
-                    app.getUserManager().addMember(packet.getUser());
-                    General.miseAJourContact();
-                }
+                    // Met à jour l'annuaire
+                    if (packet.getMessage().equals("Pseudo"))
+                    {
+                        app.getUserManager().addMember(packet.getUser());
+                        General.miseAJourContact();
+                    }
 
-                // Met à jour le pseudo dans l'annuaire
-                if(packet.getMessage().equals("ChangePseudo"))
-                {
-                    User user = app.getUserManager().getMemberByIP(addressIP);
-                    user.setPseudo(packet.getUser().getPseudo());
-                    General.miseAJourContact();
+                    // Met à jour le pseudo dans l'annuaire
+                    if (packet.getMessage().equals("ChangePseudo"))
+                    {
+                        User user = app.getUserManager().getMemberByIP(addressIP);
+                        System.out.println(user.getPseudo());
+                        user.setPseudo(packet.getUser().getPseudo());
+                        System.out.println(user.getPseudo());
+                        General.miseAJourContact();
+                    }
                 }
 
                 /*if (packet.getUser() != null)
