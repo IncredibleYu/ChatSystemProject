@@ -6,7 +6,8 @@ import java.sql.*;
 import java.util.*;
 
 public class DataBase {
-    public static String url = "jdbc:sqlite:/home/yduan/4as7/JavaProjet/java.db";
+    //public static String url = "jdbc:sqlite:/home/yduan/4as7/JavaProjet/java.db";
+    public static String url = "jdbc:sqlite:/home/babonnea/IdeaProjects/ChatSystemProject/java.db";
 
     public static void createNewDatabase() {
         try (Connection conn = DriverManager.getConnection(url)) {

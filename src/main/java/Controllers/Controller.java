@@ -20,7 +20,7 @@ public class Controller {
     {
         //setUDPReceiver(new UDPReceiver());
         setUserManager(new UserManager());
-        setDb(new DataBase(this));
+        setDb(new DataBase());
 
         if (!(maxSessions>49))
         {

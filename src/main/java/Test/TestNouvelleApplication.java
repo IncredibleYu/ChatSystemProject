@@ -14,6 +14,7 @@ public class TestNouvelleApplication
         Controller app = new Controller();
 
         UDPSender udp = new UDPSender("CLIENT", app);
+        udp.start();
         udp.broadcast(new Packet());
         System.out.println("[SERVER] Broadcast envoyé");
 

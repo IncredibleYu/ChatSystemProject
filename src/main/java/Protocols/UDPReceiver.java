@@ -228,32 +228,6 @@ public class UDPReceiver extends Thread {
         }
     }
 
-    //@Override
-    public void run3()
-    {
-        byte[] buffer = new byte[1024 * 10];
-
-        while(true)
-        {
-            try
-            {
-                DatagramPacket datagramPacket = new DatagramPacket(buffer, 0, buffer.length);
-                socket.receive(datagramPacket);
-                byte[] b_array = datagramPacket.getData();
-                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(b_array);
-
-                ObjectInputStream ois = new ObjectInputStream(byteArrayInputStream);
-                Packet packet = (Packet) ois.readObject();
-                System.out.println(packet.getUser().getPseudo());
-                app.getUserManager().addMember(packet.getUser());
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public static InetAddress getCurrentIp() {
         try {
             Enumeration networkInterfaces = NetworkInterface.getNetworkInterfaces();
