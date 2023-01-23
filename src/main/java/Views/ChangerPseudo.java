@@ -146,7 +146,7 @@ public class ChangerPseudo extends JFrame {
                     General.pseudoModif();
                     // Mettre ici la méthode pour envoyer le broadcast aux autres utilisateur pour signaler le changement de pseudo
                     Packet packet = new Packet();
-                    packet.setMessage("Pseudo");
+                    packet.setMessage("ChangePseudo");
                     packet.setUser(app.getActu());
                     app.getUdpSender().broadcast(packet);
                     window.dispose();
