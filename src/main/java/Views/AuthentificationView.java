@@ -86,6 +86,22 @@ public class AuthentificationView
                     return;
                 }
 
+                if(pseudo.length() < 6)
+                {
+                    messageLabel.setText(textWithAlign("ERREUR : Votre pseudo doit contenir au minimum 6 caractères."));
+                    messageLabel.setForeground(Color.RED);
+                    messageLabel.setVisible(true);
+                    return;
+                }
+
+                if(pseudo.length() > 12)
+                {
+                    messageLabel.setText(textWithAlign("ERREUR : Votre pseudo doit contenir au maximum 12 caractères."));
+                    messageLabel.setForeground(Color.RED);
+                    messageLabel.setVisible(true);
+                    return;
+                }
+
                 Matcher matcherPseudo = Pattern.compile("[^a-zA-Z0-9]").matcher(pseudo);
                 if(matcherPseudo.find()) // Si le pseudo contient des caractères spéciaux
                 {

@@ -134,6 +134,35 @@ public class ChangerPseudo extends JFrame {
                     }
                 });
             }
+            
+            if(pseudo.length()<6) {
+                JTextPane txtlongpseudo = new JTextPane();
+                txtlongpseudo.setText("Pseudo est trop court.");
+                txtlongpseudo.setForeground(new Color(255, 51, 51));
+                txtlongpseudo.setFont(new Font("Bahnschrift", Font.BOLD | Font.ITALIC, 11));
+                txtlongpseudo.setBackground(SystemColor.menu);
+                txtlongpseudo.setBounds(114, 75, 240, 20);
+                contentPane.add(txtlongpseudo);
+                textField.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseReleased(MouseEvent e) {}
+                    @Override
+                    public void mousePressed(MouseEvent e) {}
+                    @Override
+                    public void mouseExited(MouseEvent e) {}
+                    @Override
+                    public void mouseEntered(MouseEvent e) {}
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        JTextField texteField = ((JTextField)e.getSource());
+                        texteField.setText("");
+                        texteField.getFont().deriveFont(Font.PLAIN);
+                        texteField.setForeground(Color.black);
+                        texteField.removeMouseListener(this);
+                    }
+                });
+            }
+
             else {
                 /*if (app.getcSystem().editNickname(pseudo, 4445)) {
                     app.getActu().setPseudo(pseudo);
