@@ -156,22 +156,23 @@ public class UDPReceiver extends Thread {
 
                 String addressIP = datagramPacket.getAddress().getHostAddress();
 
-                System.out.println(addressIP);
-                System.out.println(app.getActu().getIP());
-                if(!addressIP.equals(app.getActu().getIP()))
+                //if(!addressIP.equals(app.getActu().getIP()))
+                if(!addressIP.equals(UDPReceiver.getCurrentIp().getHostAddress()))
                 {
-                    // Envoie "je suis là"
-                    if (packet.getMessage().equals("Presence"))
-                    {
-                        packet.setUser(app.getActu());
-                        sendResponse(addressIP, packet);
-                    }
-
                     // Met à jour l'annuaire
                     if (packet.getMessage().equals("Pseudo"))
                     {
+                        System.out.println(packet.getUser().getPseudo());
                         app.getUserManager().addMember(packet.getUser());
                         General.miseAJourContact();
+                    }
+
+                    // Envoie "je suis là"
+                    if (packet.getMessage().equals("Presence"))
+                    {
+                        packet.setMessage("Pseudo");
+                        packet.setUser(app.getActu());
+                        UDPSender.sendResponse(addressIP, packet);
                     }
 
                     // Met à jour le pseudo dans l'annuaire
@@ -184,31 +185,6 @@ public class UDPReceiver extends Thread {
                         General.miseAJourContact();
                     }
                 }
-
-                /*if (packet.getUser() != null)
-                {
-                    System.out.println(packet.getUser().getPseudo());
-                    app.getUserManager().addMember(packet.getUser());
-                }
-
-                // Envoie de ma présence
-
-                //InetAddress addressIP = null;
-
-                //addressIP = InetAddress.getLocalHost();
-                String addressIP = UDPReceiver.getCurrentIp().getHostAddress();
-                System.out.println("Adresse IP : " + addressIP);
-                System.out.println("All members : ");
-                app.getUserManager().showAllMembers();
-                User user = app.getUserManager().getMemberByIP(addressIP);
-
-                System.out.println("Pseudo : " + user.getPseudo());
-                packet.setUser(user);
-                sendResponse(addressIP, packet);
-
-                //this.newMessageReceived(datagramPacket.getAddress(),p);
-                //System.out.println(p.getMessage());*/
-
             }
         }
         catch (SocketException e)
@@ -221,42 +197,6 @@ public class UDPReceiver extends Thread {
         }
         catch (IOException e)
         {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendResponse(/*InetAddress address*/String address, Packet packet) throws IOException
-    {
-        try
-        {
-            // create packet send
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ObjectOutputStream os = new ObjectOutputStream(outputStream);
-            os.writeObject(packet);
-            os.close();
-
-            byte[] buffer = outputStream.toByteArray();
-            int port = 1235;
-            DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
-            datagramPacket.setAddress(/*address*/InetAddress.getByName(address));
-            datagramPacket.setPort(port);
-
-            // send packet to user
-            DatagramSocket senderSocket = new DatagramSocket();
-            senderSocket.send(datagramPacket);
-        }
-        catch (UnknownHostException e)
-        {
-            System.err.println("Unknown Host");
-            e.printStackTrace();
-        }
-        catch (SocketException e)
-        {
-            System.err.println("Socket closed");
-        }
-        catch (IOException e)
-        {
-            System.err.println("Failed with sending message");
             e.printStackTrace();
         }
     }

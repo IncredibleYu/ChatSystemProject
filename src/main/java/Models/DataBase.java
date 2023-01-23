@@ -68,7 +68,7 @@ public class DataBase {
     public static ArrayList<Message> recupHistory(User user1, User user2) {
         ArrayList<Message> historique = new ArrayList<Message>();
         String sql = "SELECT senderPseudo, receiverPseudo, message, date FROM conversation " +
-                "WHERE senderPseudo = " + user1.getPseudo() + " AND receiverPseudo = " + user2.getPseudo();
+                "WHERE senderPseudo = '" + user1.getPseudo() + "' AND receiverPseudo = '" + user2.getPseudo() + "'";
 
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt  = conn.createStatement();
@@ -87,7 +87,7 @@ public class DataBase {
         }
 
         sql = "SELECT senderPseudo, receiverPseudo, message, date FROM conversation " +
-                "WHERE senderPseudo = " + user2.getPseudo() + " AND receiverPseudo = " + user1.getPseudo();
+                "WHERE senderPseudo = '" + user2.getPseudo() + "' AND receiverPseudo = '" + user1.getPseudo() + "'";
 
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt  = conn.createStatement();

@@ -43,7 +43,7 @@ public class UDPSender extends Thread
         }
     }
 
-    @Override
+    /*@Override
     public void run()
     {
         byte[] buffer = new byte[1024 * 10];
@@ -67,7 +67,7 @@ public class UDPSender extends Thread
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     public static List<InetAddress> listAllBroadcastAddresses() throws SocketException {
         List<InetAddress> broadcastList = new ArrayList<>();
@@ -114,6 +114,43 @@ public class UDPSender extends Thread
             //System.out.println("Envoi msg en broadcast to"+addrbroadcast);
             socket.send(packet);
             socket.close();
+        }
+    }
+
+    public static void sendResponse(String address, Packet packet) throws IOException
+    {
+        try
+        {
+            // create packet send
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ObjectOutputStream os = new ObjectOutputStream(outputStream);
+            os.writeObject(packet);
+            os.close();
+
+            byte[] buffer = outputStream.toByteArray();
+            int port = 1234;
+            DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
+            System.out.println(address);
+            datagramPacket.setAddress(InetAddress.getByName(address));
+            datagramPacket.setPort(port);
+
+            // send packet to user
+            DatagramSocket senderSocket = new DatagramSocket();
+            senderSocket.send(datagramPacket);
+        }
+        catch (UnknownHostException e)
+        {
+            System.err.println("Unknown Host");
+            e.printStackTrace();
+        }
+        catch (SocketException e)
+        {
+            System.err.println("Socket closed");
+        }
+        catch (IOException e)
+        {
+            System.err.println("Failed with sending message");
+            e.printStackTrace();
         }
     }
 

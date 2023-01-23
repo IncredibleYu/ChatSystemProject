@@ -149,10 +149,8 @@ public class AuthentificationView
                     app.setActu(myUser);
 
                     //app.getUserManager().addMember(myUser);
-                    UDPReceiver udp = new UDPReceiver("SERVEUR", app);
                     TCPReceiver tcp = new TCPReceiver("SERVEUR", app);
 
-                    udp.start();
                     tcp.start();
 
                     Packet packet = new Packet();
