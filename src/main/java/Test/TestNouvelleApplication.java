@@ -8,7 +8,6 @@ import Views.AuthentificationView;
 
 public class TestNouvelleApplication
 {
-
     public static void main(String[] args)
     {
         Controller app = new Controller();

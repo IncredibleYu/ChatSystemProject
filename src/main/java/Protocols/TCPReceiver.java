@@ -3,12 +3,17 @@ package Protocols;
 import Controllers.Controller;
 import Models.User;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class TCPServer extends Thread
-{
+public class TCPReceiver extends Thread {
+    TCPSender chat ;
+    private Socket link;
+    private static boolean ouvert;
 
     private ServerSocket serverSocket;
     private Socket socket;
@@ -17,15 +22,52 @@ public class TCPServer extends Thread
     private PrintWriter out;
     //private ObjectOutputStream out;
     private boolean stop;
+
     private Controller app;
 
-    public TCPServer(String name, Controller app)
+    public TCPReceiver(String name, Controller app)
     {
         super(name);
-        this.app = app;
-        this.stop = false;
         System.out.println("[TCP] Hello, I am " + this.getName());
-        this.startConnection();
+        this.app = app;
+        setOuvert(true);
+
+        /*this.stop = false;
+        this.startConnection();*/
+    }
+
+    public TCPReceiver(Controller app) {
+        this.app = app;
+        setOuvert(true);
+    }
+
+    public void run() {
+        ServerSocket server;
+        try {
+            server = new ServerSocket(2000);
+            System.out.println("listening on port 2000 ready to have conversation");
+            while(ouvert) {
+                link = server.accept();
+                chat = new TCPSender(app,link);
+
+            }
+            //link.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Controller getApp() {
+        return app;
+    }
+
+    public void setApp(Controller app) {
+        this.app = app;
+    }
+
+    public static void setOuvert(boolean ouvert) {
+        TCPReceiver.ouvert = ouvert;
     }
 
     private void startConnection()
@@ -33,7 +75,7 @@ public class TCPServer extends Thread
         try
         {
             // Create a ServerSocket instance
-            this.serverSocket = new ServerSocket(1236);
+            this.serverSocket = new ServerSocket(2000);
         }
         catch (IOException e)
         {
@@ -41,7 +83,7 @@ public class TCPServer extends Thread
         }
     }
 
-    public void run()
+    public void run2()
     {
         //InetAddress myAddressIP = null;
         //InetAddress userAddressIP = null;
@@ -140,4 +182,6 @@ public class TCPServer extends Thread
         }
         this.stop = true;
     }
+
+
 }

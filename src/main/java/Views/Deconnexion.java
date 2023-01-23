@@ -1,7 +1,6 @@
 package Views;
 
 import Controllers.Controller;
-import Protocols.TCPReceive;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

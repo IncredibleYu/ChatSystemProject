@@ -1,14 +1,10 @@
 package Views;
 
 import Controllers.Controller;
-import Controllers.ControllerChat;
-import Controllers.UserManager;
-import Models.DataBase;
 import Models.User;
 import Packet.Packet;
-import Protocols.TCPServer;
+import Protocols.TCPReceiver;
 import Protocols.UDPReceiver;
-import Protocols.UDPSender;
 
 import javax.swing.*;
 import java.awt.*;
@@ -154,7 +150,7 @@ public class AuthentificationView
 
                     //app.getUserManager().addMember(myUser);
                     UDPReceiver udp = new UDPReceiver("SERVEUR", app);
-                    TCPServer tcp = new TCPServer("SERVEUR", app);
+                    TCPReceiver tcp = new TCPReceiver("SERVEUR", app);
 
                     udp.start();
                     tcp.start();

@@ -36,11 +36,11 @@ public class ThreadManager
         {
             if(mode.equals("CLIENT"))
             {
-                myThread = new TCPClient("CLIENT", this.app);
+                myThread = new TCPSender("CLIENT", this.app);
             }
             else
             {
-                myThread = new TCPServer("SERVEUR", this.app);
+                myThread = new TCPReceiver("SERVEUR", this.app);
             }
         }
         if(myThread != null)

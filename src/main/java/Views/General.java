@@ -15,8 +15,8 @@ import javax.swing.border.EtchedBorder;
 import Controllers.Controller;
 import Models.Message;
 import Models.User;
-import Protocols.TCPReceive;
-import Protocols.TCPSend;
+import Protocols.TCPReceiver;
+import Protocols.TCPSender;
 
 import java.awt.Font;
 
@@ -77,7 +77,7 @@ public class General {
     private static JTextArea txtrB;
     private static JEditorPane notifPane;
     private static JList<String> usersconnected;
-    private TCPReceive tcpListen;
+    private TCPReceiver tcpListen;
 
     /**
      * Constructeur de la classe General
@@ -105,7 +105,7 @@ public class General {
             public void windowClosing(WindowEvent windowEvent)
             {
                 app.getUDPReceiver().setOuvert(false);
-                TCPReceive.setOuvert(false);
+                TCPReceiver.setOuvert(false);
                 app.getcSystem().Deconnexion();
                 System.exit(0);
                 General.dispose();
@@ -204,7 +204,7 @@ public class General {
                 }
                 else {
                     String msg = textField.getText();
-                    TCPSend chat = new TCPSend(getApp(), usertalking);
+                    TCPSender chat = new TCPSender(getApp(), usertalking);
                     chat.SendMessage(msg);
                     textField.setText("");
                     loadconvo(usertalking);
@@ -220,7 +220,7 @@ public class General {
                 }
                 else {
                     String msg = textField.getText();
-                    TCPSend chat = new TCPSend(getApp(), usertalking);
+                    TCPSender chat = new TCPSender(getApp(), usertalking);
                     chat.SendMessage(msg);
                     textField.setText("");
                     loadconvo(usertalking);
@@ -371,12 +371,14 @@ public class General {
      * Methode pour charger l'historique
      */
     public static void loadconvo(User u2) {
-        ArrayList<Message> history = getApp().getDb().recupHistory();
+        ArrayList<Message> history = getApp().getDb().recupHistory(app.getActu(), u2);
         String messages = "";
-        if(history != null)
+
+        if(!history.isEmpty())
         {
             for (Message msg : history)
             {
+                System.out.println(msg);
                 if (msg.getEmetteur().equals(getApp().getActu()))
                 {
                     messages += "me: " + msg.getData() + "  " + msg.getDate() + "  \n";
@@ -430,7 +432,7 @@ public class General {
 
         public void windowClosing(WindowEvent e) {
             getApp().getUDPReceiver().setOuvert(false);
-            TCPReceive.setOuvert(false);
+            TCPReceiver.setOuvert(false);
             app.getcSystem().Deconnexion();
         }
 

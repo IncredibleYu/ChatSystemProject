@@ -9,6 +9,12 @@ public class DataBase {
 
     public static String url = "jdbc:sqlite:Database/java.db";
 
+    public DataBase()
+    {
+        createNewDatabase();
+        //deleteTable();
+        createNewTable();
+    }
 
     public static void createNewDatabase() {
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -59,22 +65,39 @@ public class DataBase {
      * Methode pour recuperer l'historique
      *
      */
-    public static ArrayList<Message> recupHistory() {
+    public static ArrayList<Message> recupHistory(User user1, User user2) {
         ArrayList<Message> historique = new ArrayList<Message>();
-        String sql = "SELECT senderPseudo, receiverPseudo, message, date FROM conversation";
-
+        String sql = "SELECT senderPseudo, receiverPseudo, message, date FROM conversation " +
+                "WHERE senderPseudo = " + user1.getPseudo() + " AND receiverPseudo = " + user2.getPseudo();
 
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
             while (rs.next()) {
-                String sender = rs.getString("senderPseudo");
-                String receiver = rs.getString("receiverPseudo");
-                Message msg= new Message();
+                Message msg = new Message();
                 msg.setContenu(rs.getString("message"));
                 msg.setDate(rs.getString("date"));
-                msg.setEmetteur(UserManager.getUserfromPseudo(sender));
-                msg.setDestinataire(UserManager.getUserfromPseudo(receiver));
+                msg.setEmetteur(user1);
+                msg.setDestinataire(user2);
+                historique.add(msg);
+            }
+        } catch (SQLException e) {
+            System.out.println("erreur de récuperation l'historique\n");
+            System.out.println(e.getMessage());
+        }
+
+        sql = "SELECT senderPseudo, receiverPseudo, message, date FROM conversation " +
+                "WHERE senderPseudo = " + user2.getPseudo() + " AND receiverPseudo = " + user1.getPseudo();
+
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+            while (rs.next()) {
+                Message msg = new Message();
+                msg.setContenu(rs.getString("message"));
+                msg.setDate(rs.getString("date"));
+                msg.setEmetteur(user2);
+                msg.setDestinataire(user1);
                 historique.add(msg);
             }
         } catch (SQLException e) {
@@ -87,7 +110,6 @@ public class DataBase {
 
     /**
      * Methode pour ajouter un message a la table
-     * @param ip
      * @param msg String
      */
 
