@@ -370,22 +370,25 @@ public class General {
      * Methode pour charger l'historique
      */
     public static void loadconvo(User u2) {
-        //ArrayList<Message> history = getApp().getDb().recupHistory(u2.getIP());
         ArrayList<Message> history = getApp().getDb().recupHistory();
         String messages = "";
-        for (Message msg : history) {
+        if(history != null)
+        {
+            for (Message msg : history)
+            {
+                if (msg.getEmetteur().equals(getApp().getActu()))
+                {
+                    messages += "me: " + msg.getData() + "  " + msg.getDate() + "  \n";
+                }
+                else
+                {
+                    messages += "                                                                                                     " + u2.getPseudo() + ":" + msg.getData() + "  " + msg.getDate() + "  \n";
+                }
 
-            if (msg.getEmetteur().equals(getApp().getActu())) {
-                messages += "me: "+ msg.getData() + "  " + msg.getDate() + "  \n";
             }
-            else {
-                messages += "                                                                                                     "+u2.getPseudo()+":" + msg.getData() + "  " + msg.getDate()+ "  \n";
-
-            }
-
+            textArea.setText(messages);
+            textArea.setCaretPosition(textArea.getDocument().getLength());
         }
-        textArea.setText(messages);
-        textArea.setCaretPosition(textArea.getDocument().getLength());
 
     }
 

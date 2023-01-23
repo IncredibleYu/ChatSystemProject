@@ -93,7 +93,7 @@ public class TCPSend extends Thread{
         try
         {
             getOut().writeObject(msg.toString());
-            getApp().getDb().addMessage(getOtheruser().getIP(), msg);
+            getApp().getDb().addMessage(msg);
             socket.close(); //Fermer le socket
         } catch (IOException e) {
             e.printStackTrace();

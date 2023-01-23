@@ -91,10 +91,9 @@ public class DataBase {
      * @param msg String
      */
 
-    public static void addMessage(Message msg) {
+    public static void addMessage(Message msg)
+    {
         String sql = "INSERT INTO conversation (senderPseudo, receiverPseudo, message, date) VALUES(?,?,?,?)";
-
-
 
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -109,7 +108,7 @@ public class DataBase {
             System.out.println(e.getMessage());
         }
     }
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         createNewDatabase();
         deleteTable();
         createNewTable();
@@ -127,6 +126,5 @@ public class DataBase {
             Message msg3=msgtable.get(i);
             System.out.println(msg3.toString());
         }
-    }
-
+    }*/
 }
