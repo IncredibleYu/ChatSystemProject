@@ -5,6 +5,8 @@ import Controllers.ControllerChat;
 import Controllers.UserManager;
 import Models.DataBase;
 import Models.User;
+import Protocols.TCPServer;
+import Protocols.UDPReceiver;
 import Protocols.UDPSender;
 
 import javax.swing.*;
@@ -148,6 +150,13 @@ public class AuthentificationView
                     app.setDb(new DataBase(app));*/
 
                     app.setActu(myUser);
+
+                    //app.getUserManager().addMember(myUser);
+                    UDPReceiver udp = new UDPReceiver("SERVEUR", app);
+                    TCPServer tcp = new TCPServer("SERVEUR", app);
+
+                    udp.start();
+                    tcp.start();
 
                     new General(app);
 
