@@ -6,7 +6,9 @@ import java.sql.*;
 import java.util.*;
 
 public class DataBase {
+
     public static String url = "jdbc:sqlite:Database/java.db";
+
 
     public static void createNewDatabase() {
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -85,10 +87,13 @@ public class DataBase {
 
     /**
      * Methode pour ajouter un message a la table
+     * @param ip
      * @param msg String
      */
+
     public static void addMessage(Message msg) {
         String sql = "INSERT INTO conversation (senderPseudo, receiverPseudo, message, date) VALUES(?,?,?,?)";
+
 
 
         try (Connection conn = DriverManager.getConnection(url);

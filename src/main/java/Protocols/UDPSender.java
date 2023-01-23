@@ -43,6 +43,32 @@ public class UDPSender extends Thread
         }
     }
 
+    @Override
+    public void run()
+    {
+        byte[] buffer = new byte[1024 * 10];
+
+        while(true)
+        {
+            try
+            {
+                DatagramPacket datagramPacket = new DatagramPacket(buffer, 0, buffer.length);
+                socket.receive(datagramPacket);
+                byte[] b_array = datagramPacket.getData();
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(b_array);
+
+                ObjectInputStream ois = new ObjectInputStream(byteArrayInputStream);
+                Packet packet = (Packet) ois.readObject();
+                System.out.println(packet.getUser().getPseudo());
+                app.getUserManager().addMember(packet.getUser());
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void envoiebroadcast(String broadcastMessage, int port) throws IOException {
         for (InetAddress  addrbroadcast : listAllBroadcastAddresses()) {
             DatagramSocket socket = new DatagramSocket();
