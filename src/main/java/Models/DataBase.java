@@ -133,7 +133,7 @@ public class DataBase {
 
     public static void updateMessages(String oldPseudo, String newPseudo)
     {
-        String sql = "UPDATE conversation set senderPseudo = '?' WHERE senderPseudo = '?'";
+        String sql = "UPDATE conversation set senderPseudo = ? WHERE senderPseudo = ?";
 
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql))
@@ -147,7 +147,7 @@ public class DataBase {
             System.out.println(e.getMessage());
         }
 
-        sql = "UPDATE conversation set receiverPseudo = '?' WHERE receiverPseudo = '?'";
+        sql = "UPDATE conversation set receiverPseudo = ? WHERE receiverPseudo = ?";
 
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql))
