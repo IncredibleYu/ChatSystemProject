@@ -2,8 +2,10 @@ package Views;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.xml.crypto.Data;
 
 import Controllers.*;
+import Models.DataBase;
 import Packet.Packet;
 
 import java.awt.event.ActionEvent;
@@ -142,7 +144,9 @@ public class ChangerPseudo extends JFrame {
                     General.dispose(); //ferme la fenetre
                 }*/
                 if (!app.getUserManager().appartient(pseudo)) {
+                    String oldPseudo = app.getActu().getPseudo();
                     app.getActu().setPseudo(pseudo);
+                    DataBase.updateMessages(oldPseudo, pseudo);
                     General.pseudoModif();
                     // Mettre ici la méthode pour envoyer le broadcast aux autres utilisateur pour signaler le changement de pseudo
                     Packet packet = new Packet();
