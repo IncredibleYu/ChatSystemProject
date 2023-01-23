@@ -4,6 +4,7 @@ import Controllers.Controller;
 import Controllers.UserManager;
 import Models.User;
 import Packet.Packet;
+import Views.General;
 
 import java.io.*;
 import java.net.*;
@@ -166,6 +167,7 @@ public class UDPReceiver extends Thread {
                 if(packet.getMessage().equals("Pseudo"))
                 {
                     app.getUserManager().addMember(packet.getUser());
+                    General.miseAJourContact();
                 }
 
                 // Met à jour le pseudo dans l'annuaire
@@ -173,6 +175,7 @@ public class UDPReceiver extends Thread {
                 {
                     User user = app.getUserManager().getMemberByIP(addressIP);
                     user.setPseudo(packet.getUser().getPseudo());
+                    General.miseAJourContact();
                 }
 
                 /*if (packet.getUser() != null)
