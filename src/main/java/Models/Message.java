@@ -12,6 +12,13 @@ public class Message {
     private String contenu;
     private String date;
 
+    public Message(User emetteur, User destinataire, String contenu, String date) {
+        this.setEmetteur(emetteur);
+        this.setDestinataire(destinataire);
+        this.setContenu(contenu);
+        this.setDate(date);
+    }
+
     public Message(User emetteur, User destinataire, String contenu) {
         this.setEmetteur(emetteur);
         this.setDestinataire(destinataire);
@@ -34,14 +41,13 @@ public class Message {
     }
 
 
-    String getDate() {
+    public String getDate() {
         return date;
     }
 
     private void setTime(String string) {
         this.date = string;
     }
-
 
     public void setTimeString(String date) {
         this.date = date;
@@ -92,7 +98,9 @@ public class Message {
         return smsg;
     }
 
-
+    public String getTimeString() {
+        return date.toString();
+    }
 
     public static Message toMessage(String smsg) {
         String[] paramsg=smsg.split("\n");
@@ -106,15 +114,12 @@ public class Message {
         for (int i=1;i<tabdata.length;i++) {
             data+=tabdata[i];
         }
-        return new Message(sender,receiver,data);
+        return new Message(sender,receiver,data,date);
 
     }
 
 
-    public String getTimeString() {
-        return date.toString();
-    }
 
-    public String getTime() { return date; }
+
 }
 
