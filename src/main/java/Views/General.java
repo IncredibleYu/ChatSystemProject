@@ -70,16 +70,12 @@ public class General {
 
     private static Controller app;
     private static JFrame frame;
-    private JTextField textField;
-    private static JPanel panel;
-    private JButton btnSend;
     private static JEditorPane textArea;
     private static JTextArea talkingto;
     private static User usertalking;
     private static JTextArea txtrB;
     private static JEditorPane notifPane;
     private static JList<String> usersconnected;
-    private TCPReceiver tcpListen;
     private static boolean isStart = false;
 
     /**
@@ -91,9 +87,8 @@ public class General {
         isStart = true;
     }
 
-
-    public void initialize() {
-
+    public void initialize()
+    {
         //frame General
         frame = new JFrame("ChatYourFriends");
         frame.setBackground(new Color(204, 204, 255));
@@ -115,7 +110,6 @@ public class General {
         menuBar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         frame.setJMenuBar(menuBar);
 
-
         //Bouton pour avoir acces à la fenetre de changement de pseudo
         JButton btnChangerPseudo = new JButton("Changer Pseudo");
         btnChangerPseudo.setFont(new Font("Comfortaa", Font.BOLD, 15));
@@ -127,8 +121,6 @@ public class General {
                 new ChangerPseudo(getApp());
             }
         });
-
-
 
         //Bouton pour avoir acces à la fenetre de deconnexion
         JButton btnDeconnexion = new JButton("Déconnexion");
@@ -142,7 +134,6 @@ public class General {
                 new Deconnexion(getApp());
             }
         });
-
 
         JPanel panel = new JPanel();
         panel.setBounds(25, 12, 1262, 910);
@@ -189,22 +180,19 @@ public class General {
         btnSend.setBackground(new Color(204, 204, 255));
         btnSend.setFont(new Font("Comfortaa", Font.BOLD, 15));
 
-
         btnSend.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (getUsertalking()==null) {
                 }
                 else {
                     String msg = textField.getText();
-                    TCPSender chat = new TCPSender(getApp(), usertalking);
+                    TCPSender chat = new TCPSender("CLIENT", getApp(), usertalking);
                     chat.SendMessage(msg);
                     textField.setText("");
                     loadconvo(usertalking);
                 }
             }
         });
-
-
 
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -212,7 +200,7 @@ public class General {
                 }
                 else {
                     String msg = textField.getText();
-                    TCPSender chat = new TCPSender(getApp(), usertalking);
+                    TCPSender chat = new TCPSender("CLIENT", getApp(), usertalking);
                     chat.SendMessage(msg);
                     textField.setText("");
                     loadconvo(usertalking);
@@ -220,7 +208,6 @@ public class General {
             }
 
         });
-
 
         panel.setLayout(null);
 
@@ -288,7 +275,6 @@ public class General {
         usersconnected.setBounds(0, 646, 272, -599);
         usersconnected.setBackground(new Color(204, 204, 255));
         usersconnected.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-
         usersconnected.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
                 if (evt.getValueIsAdjusting()) {
@@ -305,19 +291,18 @@ public class General {
             }
         });
 
-
         panel_2.add(usersconnected);
 
         frame.getContentPane().add(panel_1);
         frame.setVisible(true);
 
-        /*
-        //Lancement de runner TCP et UDP
-        getApp().getUDPReceiver().setCas(3);
-        tcpListen = new TCPReceive(getApp());
-        tcpListen.run();
-        miseAJourContact();
-        */
+    }
+
+    public static void resetSelection()
+    {
+        usersconnected.setSelectedIndex(-1);
+        usertalking = null;
+        clearMessagesArea();
     }
 
 
@@ -411,7 +396,7 @@ public class General {
     public static void displayNotifUsers(String pseudo, String todisplay ) {
         String notifs="";
         notifs+=notifPane.getText();
-        notifs+=pseudo + todisplay;
+        notifs+=pseudo + todisplay+"\n";
 
         //on affiche et on scrolle jusqu'en bas
         notifPane.setText(notifs);
@@ -479,5 +464,10 @@ public class General {
 
     public static void setApp(Controller app) {
         General.app = app;
+    }
+
+    public static boolean isStart()
+    {
+        return isStart;
     }
 }

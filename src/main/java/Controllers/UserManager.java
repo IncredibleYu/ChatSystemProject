@@ -1,15 +1,11 @@
 package Controllers;
 
 import Models.User;
-import org.jetbrains.annotations.NotNull;
-
-import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class UserManager extends ArrayList<User>
 {
     private static ArrayList<User> listMembers;
-    //static ArrayList<User> users = new ArrayList<User>();
 
     public UserManager()
     {
@@ -26,10 +22,6 @@ public class UserManager extends ArrayList<User>
         }
     }
 
-    public void addConnectedUser (User i) {
-        listMembers.add(i);
-    }
-
     /**
      * @return n int : taille de la listes
      */
@@ -42,18 +34,6 @@ public class UserManager extends ArrayList<User>
             count++;
         }
         return count;
-    }
-
-    public synchronized User getMemberById(int userId)
-    {
-        for(User member : getAllMembers())
-        {
-            if(member.getId() == userId)
-            {
-                return member;
-            }
-        }
-        return null;
     }
 
     public synchronized User getMemberByPseudo(String pseudo)
@@ -100,21 +80,6 @@ public class UserManager extends ArrayList<User>
     }
 
     /**
-     * Methode pour recuperer un type User d'apres son adresse IP
-     * @return user avec l'ip correspondante
-     */
-    public User getUserfromIP (String ip) {
-        User toget = null;
-        for (User user : listMembers) {
-            if (user.getIP().equals(ip)) {
-                toget=user;
-                return toget;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Methode pour recuperer le champ Pseudp d'un type User d'apres son pseudo
      * @return String pseudo
      */
@@ -122,7 +87,7 @@ public class UserManager extends ArrayList<User>
         String toget = null;
         for (User user : listMembers) {
             if (user.getIP().equals(IP)) {
-                toget=user.getPseudo();
+                toget = user.getPseudo();
                 return toget;
             }
         }
@@ -132,10 +97,6 @@ public class UserManager extends ArrayList<User>
     public synchronized void deleteMember(User oldMember)
     {
         this.listMembers.remove(oldMember);
-    }
-
-    public void deleteUser (User i) {
-        listMembers.remove(i);
     }
 
     public synchronized ArrayList<User> getAllMembers()
@@ -167,11 +128,6 @@ public class UserManager extends ArrayList<User>
         for (User member : getAllMembers())
         {
             System.out.println("(" + member.getPseudo() + ", " + member.getIP() + ")");
-        }
-    }
-
-    public static void showActifUsers() {
-        for (User user : listMembers) {
         }
     }
 

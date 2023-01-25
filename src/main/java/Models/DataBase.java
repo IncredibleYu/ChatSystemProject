@@ -1,7 +1,5 @@
 package Models;
 
-import Controllers.UserManager;
-
 import java.sql.*;
 import java.util.*;
 
@@ -153,23 +151,4 @@ public class DataBase {
             System.out.println(e.getMessage());
         }
     }
-    /*public static void main(String[] args) {
-        createNewDatabase();
-        deleteTable();
-        createNewTable();
-        UserManager userManager = new UserManager();
-        User user1 = new User(1,"toto",1234);
-        User user2 = new User(2,"tata",1235);
-        userManager.addMember(user1);
-        userManager.addMember(user2);
-        Message msg1 = new Message(user1,user2,"Hello user2");
-        Message msg2 = new Message(user2,user1,"Hello user1");
-        addMessage(msg1);
-        addMessage(msg2);
-        ArrayList<Message> msgtable = recupHistory();
-        for(int i = 0; i<msgtable.size();i++){
-            Message msg3=msgtable.get(i);
-            System.out.println(msg3.toString());
-        }
-    }*/
 }

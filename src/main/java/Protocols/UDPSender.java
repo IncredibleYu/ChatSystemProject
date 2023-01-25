@@ -1,8 +1,6 @@
 package Protocols;
 
 import Controllers.Controller;
-import Controllers.UserManager;
-import Models.User;
 import Packet.Packet;
 
 import java.io.*;
@@ -20,7 +18,6 @@ import java.util.Objects;
 
 public class UDPSender extends Thread
 {
-    private DatagramSocket socket;
     private Controller app;
 
     //Constructor
@@ -30,44 +27,7 @@ public class UDPSender extends Thread
         this.app = app;
 
         System.out.println("[UDP] Hello, I am " + this.getName());
-
-        try
-        {
-            socket = new DatagramSocket(1235);
-            //socket.setSoTimeout(1000);
-        }
-        catch (SocketException e)
-        {
-            System.err.println("Error in creation socket");
-            e.printStackTrace();
-        }
     }
-
-    /*@Override
-    public void run()
-    {
-        byte[] buffer = new byte[1024 * 10];
-
-        while(true)
-        {
-            try
-            {
-                DatagramPacket datagramPacket = new DatagramPacket(buffer, 0, buffer.length);
-                socket.receive(datagramPacket);
-                byte[] b_array = datagramPacket.getData();
-                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(b_array);
-
-                ObjectInputStream ois = new ObjectInputStream(byteArrayInputStream);
-                Packet packet = (Packet) ois.readObject();
-                System.out.println(packet.getUser().getPseudo());
-                app.getUserManager().addMember(packet.getUser());
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }*/
 
     public static List<InetAddress> listAllBroadcastAddresses() throws SocketException {
         List<InetAddress> broadcastList = new ArrayList<>();
@@ -86,35 +46,6 @@ public class UDPSender extends Thread
                     .forEach(broadcastList::add);
         }
         return broadcastList;
-    }
-
-
-    public static void sendUDP(String msg, int port, String laddr) throws SocketException {
-
-        DatagramSocket socket = new DatagramSocket();
-
-        byte[] buffer = msg.getBytes();
-        DatagramPacket packet;
-        try {
-            packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(laddr), port);
-            //System.out.println("Envoi msg");
-            socket.send(packet);
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void envoiebroadcast(String broadcastMessage, int port) throws IOException {
-        for (InetAddress  addrbroadcast : listAllBroadcastAddresses()) {
-            DatagramSocket socket = new DatagramSocket();
-            socket.setBroadcast(true);
-            byte[] buffer = broadcastMessage.getBytes();
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, addrbroadcast, port);
-            //System.out.println("Envoi msg en broadcast to"+addrbroadcast);
-            socket.send(packet);
-            socket.close();
-        }
     }
 
     public static void sendResponse(String address, Packet packet) throws IOException
@@ -137,6 +68,7 @@ public class UDPSender extends Thread
             // send packet to user
             DatagramSocket senderSocket = new DatagramSocket();
             senderSocket.send(datagramPacket);
+            senderSocket.close();
         }
         catch (UnknownHostException e)
         {
@@ -180,14 +112,6 @@ public class UDPSender extends Thread
         catch (Exception e)
         {
             e.printStackTrace();
-        }
-    }
-
-    public void closeConnection()
-    {
-        if (!this.socket.isClosed())
-        {
-            this.socket.close();
         }
     }
 

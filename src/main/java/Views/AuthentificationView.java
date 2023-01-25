@@ -4,12 +4,10 @@ import Controllers.Controller;
 import Models.User;
 import Packet.Packet;
 import Protocols.TCPReceiver;
-import Protocols.UDPReceiver;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,6 +34,14 @@ public class AuthentificationView
         frame = new JFrame("ChatYourFriends - Connexion");
         frame.setSize(dimWindow);
         frame.setLocation(new Point(750, 250));
+
+        frame.addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent windowEvent)
+            {
+                System.exit(0);
+            }
+        });
 
         choiceLabel = new JLabel("Veuillez saisir votre pseudonyme ci-dessous :", SwingConstants.LEFT);
         pseudoTextField = new JTextField();
@@ -109,12 +115,8 @@ public class AuthentificationView
                     messageLabel.updateUI();
                     pseudoTextField.setVisible(false);
                     choiceLabel.setVisible(false);
-                    //Label not updating : https://stackoverflow.com/questions/31207463/label-not-updating-in-same-instance-of-gui
-
-
 
                     User myUser = new User(0, pseudo, 1234);
-
 
                     boolean PseudoIsUsed = app.getUserManager().checkUserExists(myUser.getPseudo());
                     if (PseudoIsUsed)
@@ -127,10 +129,6 @@ public class AuthentificationView
                         button.setVisible(true);
                         return;
                     }
-                    //app.getUserManager().addMember(myUser);
-                    //Thread UDPClient = myThreadManager.newThread("UDP", "CLIENT");
-                    /*Packet packet = new Packet(myUser);
-                    udp.send(packet);*/
 
                     messageLabel.setText(textWithAlign("REUSSI : Excellent choix!"));
                     messageLabel.setForeground(Color.GREEN);
@@ -139,27 +137,10 @@ public class AuthentificationView
                     choiceLabel.setVisible(false);
 
                     frame.setVisible(false);
-                    Point coords = frame.getLocation();
-                    //new DirectoryView(userManager, myUser, coords);
-                    /*Controller app = new Controller(myUser);
-                    //app.setServerUDP(new UDPReceive(app));
-                    app.setcSystem(new ControllerChat(app));
-                    app.setDb(new DataBase(app));*/
 
-                    app.setActu(myUser);
-
-                    //app.getUserManager().addMember(myUser);
-                    TCPReceiver tcp = new TCPReceiver("SERVEUR", app);
-                    tcp.start();
-
-                    Packet packet = new Packet();
-                    packet.setMessage("Pseudo");
-                    packet.setUser(myUser);
-                    app.getUdpSender().broadcast(packet);
+                    app.getcSystem().Connexion(myUser);
 
                     new General(app);
-
-                    //myUDPServer.closeConnection();
                 }
                 else
                 {

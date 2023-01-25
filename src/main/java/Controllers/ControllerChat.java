@@ -1,5 +1,7 @@
 package Controllers;
 
+import Models.DataBase;
+import Models.User;
 import Packet.Packet;
 import Protocols.TCPReceiver;
 import Protocols.UDPReceiver;
@@ -39,10 +41,10 @@ public class ControllerChat
     /**
      * Methode pour la connexion d'un utilisateur
      *
-     * @param newPseudo String
+     * @param newUser User
      * @return boolean
      */
-    public boolean Connexion(String newPseudo)
+    public void Connexion(User newUser)
     {
         /*udplisten.setCas(1);
         udplisten.start();
@@ -60,11 +62,20 @@ public class ControllerChat
             udplisten.setCas(3);
         }
         return udplisten.isDisponible();*/
-        return true;
+
+        app.setActu(newUser);
+
+        TCPReceiver tcp = new TCPReceiver("SERVEUR", app);
+        tcp.start();
+
+        Packet packet = new Packet();
+        packet.setMessage("Pseudo");
+        packet.setUser(newUser);
+        app.getUdpSender().broadcast(packet);
     }
 
 
-    public boolean editNickname(String newPseudo, int port)
+    public void editNickname(String newPseudo)
     {
         /*serverUDP.setCas(2);
         try
@@ -82,22 +93,21 @@ public class ControllerChat
 
         }
         return serverUDP.isDisponible();*/
-        return true;
+
+        String oldPseudo = app.getActu().getPseudo();
+        app.getActu().setPseudo(newPseudo);
+        DataBase.updateMessages(oldPseudo, newPseudo);
+        General.pseudoModif();
+        // Mettre ici la méthode pour envoyer le broadcast aux autres utilisateur pour signaler le changement de pseudo
+        Packet packet = new Packet();
+        packet.setMessage("ChangePseudo");
+        packet.setUser(app.getActu());
+        app.getUdpSender().broadcast(packet);
     }
 
 
     public void Deconnexion()
     {
-        /*int port = 4445;
-        try
-        {
-            UDPSender.envoiebroadcast(("DECONNEXION_" + getApp().getActu().getPseudo() + "_" + getApp().getActu().getIP() + "_" + getApp().getActu().getPort()), port);
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }*/
-
-        //getApp().getUDPReceiver().setOuvert(false);
         getApp().getUDPReceiver().closeSocket();
         TCPReceiver.setOuvert(false);
 

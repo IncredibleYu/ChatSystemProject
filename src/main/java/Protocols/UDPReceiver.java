@@ -1,7 +1,6 @@
 package Protocols;
 
 import Controllers.Controller;
-import Controllers.UserManager;
 import Models.User;
 import Packet.Packet;
 import Views.General;
@@ -10,11 +9,8 @@ import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
 
-import static Views.General.setApp;
-
 public class UDPReceiver extends Thread {
 
-    private int cas ;
     private int port;
     private boolean ouvert ;
     private Controller app;
@@ -57,7 +53,11 @@ public class UDPReceiver extends Thread {
                     {
                         System.out.println(packet.getUser().getPseudo());
                         app.getUserManager().addMember(packet.getUser());
-                        General.miseAJourContact();
+                        if(General.isStart())
+                        {
+                            General.miseAJourContact();
+                            General.displayNotifUsers(packet.getUser().getPseudo(), " s'est connecté.");
+                        }
                     }
 
                     // Envoie "je suis là" seulement si connecté
@@ -78,7 +78,11 @@ public class UDPReceiver extends Thread {
                         user.setPseudo(newPseudo);
                         System.out.println(user.getPseudo());
                         this.app.getDb().updateMessages(oldPseudo, newPseudo);
-                        General.miseAJourContact();
+                        if(General.isStart())
+                        {
+                            General.miseAJourContact();
+                            General.displayNotifUsers(packet.getUser().getPseudo(), " a changé son pseudo.");
+                        }
                     }
 
                     if (packet.getMessage().equals("Deconnexion"))
@@ -86,7 +90,12 @@ public class UDPReceiver extends Thread {
                         System.out.println(packet.getUser().getPseudo());
                         User userToDelete = app.getUserManager().getMemberByPseudo(packet.getUser().getPseudo());
                         app.getUserManager().deleteMember(userToDelete);
-                        General.miseAJourContact();
+                        if(General.isStart())
+                        {
+                            General.miseAJourContact();
+                            General.displayNotifUsers(packet.getUser().getPseudo(), " s'est déconnecté.");
+                            General.resetSelection();
+                        }
                     }
                 }
             }

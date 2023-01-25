@@ -2,11 +2,11 @@ package Models;
 
 
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.Date;
 
-public class Message {
-    /*dans user il y a ipaddress port pseudo*/
+public class Message
+{
+    // Dans user il y a ipaddress, port et pseudo
     private User emetteur;
     private User destinataire;
     private String contenu;
@@ -27,19 +27,10 @@ public class Message {
         this.setDate(dateFormat.format(new Date()));
     }
 
-
-
-    public Message(String msg) {
-        this.setData(msg);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        this.setTime(dateFormat.format(new Date()));
-    }
-
     public Message() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         this.setTime(dateFormat.format(new Date()));
     }
-
 
     public String getDate() {
         return date;
@@ -47,14 +38,6 @@ public class Message {
 
     private void setTime(String string) {
         this.date = string;
-    }
-
-    public void setTimeString(String date) {
-        this.date = date;
-    }
-
-    public void setData(String data) {
-        this.contenu = data;
     }
 
     public String getData() {
@@ -90,16 +73,10 @@ public class Message {
         this.destinataire = destinataire;
     }
 
-
-
     public String toString() {
         String smsg= "Sender: "+this.getEmetteur()+"\n"+"Receiver:  "+this.getDestinataire()+"\n"
                 +"Time:  "+ this.getDate()+"\n"+ "Data:  "+this.getData()+"\n";
         return smsg;
-    }
-
-    public String getTimeString() {
-        return date.toString();
     }
 
     public static Message toMessage(String smsg) {
@@ -117,9 +94,5 @@ public class Message {
         return new Message(sender,receiver,data,date);
 
     }
-
-
-
-
 }
 

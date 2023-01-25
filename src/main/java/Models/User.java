@@ -10,7 +10,6 @@ public class User  implements Serializable
 
     private int id;
     private String pseudo;
-    //private InetAddress addressIP;
     private String addressIP;
     private int port;
     private boolean pseudoIsUsed;
@@ -19,8 +18,8 @@ public class User  implements Serializable
      * 1) Constructeur d'un User sans attributs
      */
     public User() {
-        this.setIP(UDPReceiver.getCurrentIp().getHostAddress());
-        this.setPort(1234);
+        this.addressIP = UDPReceiver.getCurrentIp().getHostAddress();
+        this.port = 1234;
     }
 
     /**
@@ -30,17 +29,16 @@ public class User  implements Serializable
      * @param pseudonym pseudo l'utilisateur
      */
     public User(String address, int port, String pseudonym) {
-        this.setIP(address);
-        this.setPort(port);
-        this.setPseudo(pseudonym);
+        this.addressIP = address;
+        this.port = port;
+        this.pseudo = pseudonym;
     }
 
     public User(int id, String pseudo, int port)
     {
         this.id = id;
         this.pseudo = pseudo;
-
-        this.setIP(UDPReceiver.getCurrentIp().getHostAddress());
+        this.addressIP = UDPReceiver.getCurrentIp().getHostAddress();
         this.port = port;
         this.pseudoIsUsed = false;
     }
@@ -57,35 +55,9 @@ public class User  implements Serializable
         return pseudo;
     }
 
-    /*public InetAddress getAddressIP()
-    {
-        return addressIP;
-    }
-
-    public void setAddressIP(InetAddress addressIP)
-    {
-        this.addressIP = addressIP;
-    }
-    */
-
     public String getIP()
     {
         return addressIP;
-    }
-
-    public void setIP(String address)
-    {
-        this.addressIP = address;
-    }
-
-    public int getPort()
-    {
-        return port;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
     }
 
     public void setPseudo(String pseudo)
@@ -93,18 +65,6 @@ public class User  implements Serializable
         this.pseudo = pseudo;
     }
 
-    public void setPort(int port)
-    {
-        this.port = port;
-    }
-
-    public boolean pseudoIsUsed() {
-        return this.pseudoIsUsed;
-    }
-
-    public void setPseudoIsUsed(boolean pseudoIsUsed) {
-        this.pseudoIsUsed = pseudoIsUsed;
-    }
 
     //-------------------- Methodes -----------------------------//
 

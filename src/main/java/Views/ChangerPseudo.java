@@ -136,25 +136,15 @@ public class ChangerPseudo extends JFrame {
                     }
                 });
             }
-            else {
-                /*if (app.getcSystem().editNickname(pseudo, 4445)) {
-                    app.getActu().setPseudo(pseudo);
-                    General.pseudoModif();
-
-                    General.dispose(); //ferme la fenetre
-                }*/
-                if (!app.getUserManager().appartient(pseudo)) {
-                    String oldPseudo = app.getActu().getPseudo();
-                    app.getActu().setPseudo(pseudo);
-                    DataBase.updateMessages(oldPseudo, pseudo);
-                    General.pseudoModif();
-                    // Mettre ici la méthode pour envoyer le broadcast aux autres utilisateur pour signaler le changement de pseudo
-                    Packet packet = new Packet();
-                    packet.setMessage("ChangePseudo");
-                    packet.setUser(app.getActu());
-                    app.getUdpSender().broadcast(packet);
+            else
+            {
+                if (!app.getUserManager().appartient(pseudo))
+                {
+                    app.getcSystem().editNickname(pseudo);
                     window.dispose();
-                }else {
+                }
+                else
+                {
                     JTextPane txtpnPseudonymAlreadyIn = new JTextPane();
                     txtpnPseudonymAlreadyIn.setText("Pseudo déjà utilisé. Veuillez en choisir un autre");
                     txtpnPseudonymAlreadyIn.setBackground(new Color(0,0,0));
@@ -182,9 +172,7 @@ public class ChangerPseudo extends JFrame {
                         }
                     });
                 }
-
             }
         }
     }
-
 }
