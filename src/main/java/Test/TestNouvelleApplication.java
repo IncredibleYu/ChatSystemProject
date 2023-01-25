@@ -14,9 +14,7 @@ public class TestNouvelleApplication
         Controller app = new Controller();
 
         //UDPSender udp = new UDPSender("CLIENT", app);
-        UDPReceiver udp = new UDPReceiver("SERVEUR", app);
-        udp.start();
-        app.setUDPReceiver(udp);
+
         Packet packet = new Packet();
         packet.setMessage("Presence");
         UDPSender.broadcast(packet);

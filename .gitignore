@@ -20,4 +20,4 @@ target/
 
 # Database
 Database/
-.db
+*.db
