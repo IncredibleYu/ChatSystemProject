@@ -24,6 +24,7 @@ public class Controller {
         //setUDPReceiver(new UDPReceiver());
         setUserManager(new UserManager());
         setDb(new DataBase());
+        setcSystem(new ControllerChat(this));
 
         if (!(maxSessions>49))
         {

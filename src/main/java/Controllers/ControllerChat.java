@@ -1,7 +1,10 @@
 package Controllers;
 
+import Packet.Packet;
+import Protocols.TCPReceiver;
 import Protocols.UDPReceiver;
 import Protocols.UDPSender;
+import Views.General;
 
 import java.io.IOException;
 
@@ -41,7 +44,7 @@ public class ControllerChat
      */
     public boolean Connexion(String newPseudo)
     {
-        udplisten.setCas(1);
+        /*udplisten.setCas(1);
         udplisten.start();
         int port = 4445;
         try
@@ -56,13 +59,14 @@ public class ControllerChat
             getApp().getActu().setPseudo(newPseudo);
             udplisten.setCas(3);
         }
-        return udplisten.isDisponible();
+        return udplisten.isDisponible();*/
+        return true;
     }
 
 
     public boolean editNickname(String newPseudo, int port)
     {
-        serverUDP.setCas(2);
+        /*serverUDP.setCas(2);
         try
         {
             //System.out.println("Tentative de changement de pseudo en broadcast");
@@ -77,20 +81,33 @@ public class ControllerChat
             serverUDP.setCas(3);
 
         }
-        return serverUDP.isDisponible();
+        return serverUDP.isDisponible();*/
+        return true;
     }
 
 
     public void Deconnexion()
     {
-        int port = 4445;
+        /*int port = 4445;
         try
         {
             UDPSender.envoiebroadcast(("DECONNEXION_" + getApp().getActu().getPseudo() + "_" + getApp().getActu().getIP() + "_" + getApp().getActu().getPort()), port);
         } catch (IOException e)
         {
             e.printStackTrace();
-        }
+        }*/
+
+        //getApp().getUDPReceiver().setOuvert(false);
+        getApp().getUDPReceiver().closeSocket();
+        TCPReceiver.setOuvert(false);
+
+        Packet packet = new Packet();
+        packet.setMessage("Deconnexion");
+        packet.setUser(getApp().getActu());
+        UDPSender.broadcast(packet);
+
+        General.dispose();
+        System.exit(0);
     }
 
 

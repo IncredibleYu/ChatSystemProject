@@ -19,7 +19,7 @@ public class Deconnexion extends JFrame {
 
     public Deconnexion(Controller app) {
         setBackground(new Color(204, 204, 255));
-        this.app=app;
+        this.app = app;
         initialize();
     }
 
@@ -43,14 +43,12 @@ public class Deconnexion extends JFrame {
         btnNewButton.setBounds(118, 107, 115, 23);
         contentPane.add(btnNewButton);
 
-        btnNewButton.addActionListener(new ActionListener() {
+        btnNewButton.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
-                /*app.getUDPReceiver().setOuvert(false);
-                TCPReceive.setOuvert(false);
-                app.getcSystem().Deconnexion();;*/
-                System.exit(0);
-                //General.dispose();
+            public void actionPerformed(ActionEvent arg0)
+            {
+                getApp().getcSystem().Deconnexion();
             }
         });
 
@@ -76,6 +74,14 @@ public class Deconnexion extends JFrame {
         contentPane.add(lblNewLabel);
 
         setVisible(true);
+    }
+
+    public Controller getApp() {
+        return this.app;
+    }
+
+    public void setApp(Controller app) {
+        this.app = app;
     }
 
 

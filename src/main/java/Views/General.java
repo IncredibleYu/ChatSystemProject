@@ -15,8 +15,10 @@ import javax.swing.border.EtchedBorder;
 import Controllers.Controller;
 import Models.Message;
 import Models.User;
+import Packet.Packet;
 import Protocols.TCPReceiver;
 import Protocols.TCPSender;
+import Protocols.UDPSender;
 
 import java.awt.Font;
 
@@ -101,18 +103,6 @@ public class General {
         frame.getContentPane().setMaximumSize(new Dimension(1600, 900));
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setBounds(0, 0, dim.width, dim.height);
-
-
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowEvent)
-            {
-                app.getUDPReceiver().setOuvert(false);
-                TCPReceiver.setOuvert(false);
-                app.getcSystem().Deconnexion();
-                System.exit(0);
-                General.dispose();
-            }
-        });
 
         frame.addWindowListener(new windowClosingListener());
 
@@ -390,7 +380,8 @@ public class General {
                 }
                 else
                 {
-                    messages += "                                                                                                     " + u2.getPseudo() + ":" + msg.getData() + "  " + msg.getDate() + "  \n";
+                    messages += "                                                                                                                          " +
+                            u2.getPseudo() + ":" + msg.getData() + "  " + msg.getDate() + "  \n";
                 }
 
             }
@@ -435,10 +426,8 @@ public class General {
 
     public class windowClosingListener implements WindowListener {
 
-        public void windowClosing(WindowEvent e) {
-            getApp().getUDPReceiver().setOuvert(false);
-            TCPReceiver.setOuvert(false);
-            app.getcSystem().Deconnexion();
+        public void windowClosing(WindowEvent windowEvent) {
+            getApp().getcSystem().Deconnexion();
         }
 
         public void windowOpened(WindowEvent arg0) {
@@ -468,7 +457,6 @@ public class General {
      */
     public static void dispose() {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        getApp().getUDPReceiver().setOuvert(false);
         frame.dispose();
     }
 

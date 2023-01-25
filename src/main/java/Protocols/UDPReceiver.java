@@ -17,123 +17,16 @@ public class UDPReceiver extends Thread {
     private int cas ;
     private int port;
     private boolean ouvert ;
-    private boolean disponible ;
-    private DatagramPacket rPacket;
-    private static DatagramSocket sSocket;
     private Controller app;
-    private Boolean stop;
 
     private DatagramSocket socket;
 
-    public UDPReceiver() {
-        setOuvert(true);
-        setDisponible(true);
-    }
-
-    public UDPReceiver(Controller app) {
-        setOuvert(true);
-        setApp(app);
-        setDisponible(true);
-    }
-
-    public UDPReceiver(String name, Controller app)
+    public UDPReceiver(String name, Controller app, int port)
     {
         super(name);
-
-        setOuvert(true);
-        setApp(app);
-        setDisponible(true);
-
-        this.stop = false;
-    }
-
-    public void run2() {
-        int serverPort=4445;
-        try {
-            sSocket = new DatagramSocket(serverPort);
-            String sentence="";
-            byte[] array = new byte[100000000];
-
-            //System.out.printf("Listening on udp:%s:%d%n", getCurrentIp().getHostAddress(), serverPort);
-            while (ouvert) {
-                //cas de la connexion
-                if (getCas()==1) {
-                    try {
-                        sSocket.setSoTimeout(2000);
-                        rPacket = new DatagramPacket(array, array.length);
-                        sSocket.receive(rPacket);
-                        sentence = new String( rPacket.getData(), 0, rPacket.getLength() );
-                        //System.out.println("On a re�u: "+ sentence);
-                        User usertoadd= User.toUser(sentence);
-                        String[] parametersuser=sentence.split("_");
-                        String validate= parametersuser[0];
-                        //Si r�ponse n�gative then renvoi faux
-                        if (validate.equals("notOk")) {
-                            //System.out.println("pseudo Not ok");
-                            setDisponible(false);
-                            setCas(3);
-                        }else {
-                            //Si r�ponse positive then renvoi vrai
-                            //System.out.println("pseudo ok");
-                            setDisponible(true);
-                            if(usertoadd.getIP().equals(getApp().getActu().getIP())) {
-                                //nothing to do
-                            }
-                            else if(!(usertoadd.getIP().equals("IP"))) {
-                                //si on est le 1er du r�seau on ajoute personne
-                                //System.out.println("on ajoute "+usertoadd);
-                                getApp().getUserManager().addConnectedUser(usertoadd);
-
-                            }
-                        }
-
-                    }
-                    catch(SocketTimeoutException e){
-                        sentence="ok_pseudo_IP_4445";
-                        setDisponible(true);
-                    }
-                    catch(Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                //cas du changement de pseudo
-                else if (getCas()==2) {
-                    try {
-                        sSocket.setSoTimeout(2000);
-                        rPacket = new DatagramPacket(array, array.length);
-                        sSocket.receive(rPacket);
-                        sentence = new String( rPacket.getData(), 0, rPacket.getLength() );
-                        User usertoadd= User.toUser(sentence);
-                        String[] parametersuser=sentence.split("_");
-                        String validate= parametersuser[0];
-                        if (validate.equals("notOk")) {
-                            setDisponible(false);
-                            setCas(3);
-                        }else {
-                            setDisponible(true);
-                        }
-                    }
-                    catch (SocketTimeoutException e ) {
-                        setDisponible(true);
-
-                    }
-                    catch(Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                else if (getCas() == 3) {
-                    System.out.println("TestCas3");
-                }
-
-
-            }
-
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.app = app;
+        this.ouvert = true;
+        this.port = port;
     }
 
     public void run()
@@ -141,8 +34,9 @@ public class UDPReceiver extends Thread {
         System.out.println("[UDP] Hello, I am " + this.getName());
         try
         {
-            this.socket = new DatagramSocket(1234);
-            while (!this.stop)
+            this.socket = new DatagramSocket(port);
+
+            while (ouvert)
             {
                 byte[] buffer = new byte[1024 * 10];
                 DatagramPacket datagramPacket = new DatagramPacket(buffer, 0, buffer.length);
@@ -156,7 +50,6 @@ public class UDPReceiver extends Thread {
 
                 String addressIP = datagramPacket.getAddress().getHostAddress();
 
-                //if(!addressIP.equals(app.getActu().getIP()))
                 if(!addressIP.equals(UDPReceiver.getCurrentIp().getHostAddress()))
                 {
                     // Met à jour l'annuaire
@@ -167,8 +60,8 @@ public class UDPReceiver extends Thread {
                         General.miseAJourContact();
                     }
 
-                    // Envoie "je suis là"
-                    if (packet.getMessage().equals("Presence"))
+                    // Envoie "je suis là" seulement si connecté
+                    if (packet.getMessage().equals("Presence") && app.getActu() != null)
                     {
                         packet.setMessage("Pseudo");
                         packet.setUser(app.getActu());
@@ -184,7 +77,15 @@ public class UDPReceiver extends Thread {
                         System.out.println(oldPseudo);
                         user.setPseudo(newPseudo);
                         System.out.println(user.getPseudo());
-                        getApp().getDb().updateMessages(oldPseudo, newPseudo);
+                        this.app.getDb().updateMessages(oldPseudo, newPseudo);
+                        General.miseAJourContact();
+                    }
+
+                    if (packet.getMessage().equals("Deconnexion"))
+                    {
+                        System.out.println(packet.getUser().getPseudo());
+                        User userToDelete = app.getUserManager().getMemberByPseudo(packet.getUser().getPseudo());
+                        app.getUserManager().deleteMember(userToDelete);
                         General.miseAJourContact();
                     }
                 }
@@ -224,42 +125,9 @@ public class UDPReceiver extends Thread {
         return null;
     }
 
-
-    public Controller getApp() {
-        return app;
-    }
-
-    public void setApp(Controller app) {
-        this.app = app;
-    }
-
     public void closeSocket()
     {
-        this.stop = true;
-        sSocket.close();
-    }
-
-    public boolean isDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
-
-    public boolean isOuvert() {
-        return ouvert;
-    }
-
-    public void setOuvert(boolean ouvert) {
-        this.ouvert = ouvert;
-    }
-
-    public int getCas() {
-        return cas;
-    }
-
-    public void setCas(int cas) {
-        this.cas = cas;
+        this.ouvert = false;
+        socket.close();
     }
 }

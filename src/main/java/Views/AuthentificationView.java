@@ -152,10 +152,6 @@ public class AuthentificationView
                     TCPReceiver tcp = new TCPReceiver("SERVEUR", app);
                     tcp.start();
 
-                    UDPReceiver udp = new UDPReceiver("SERVEUR", app);
-                    udp.start();
-                    app.setUDPReceiver(udp);
-
                     Packet packet = new Packet();
                     packet.setMessage("Pseudo");
                     packet.setUser(myUser);

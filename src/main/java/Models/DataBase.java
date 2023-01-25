@@ -67,8 +67,10 @@ public class DataBase {
      */
     public static ArrayList<Message> recupHistory(User user1, User user2) {
         ArrayList<Message> historique = new ArrayList<Message>();
+
         String sql = "SELECT senderPseudo, receiverPseudo, message, date FROM conversation " +
-                "WHERE senderPseudo = '" + user1.getPseudo() + "' AND receiverPseudo = '" + user2.getPseudo() + "'";
+                "WHERE (senderPseudo = '" + user1.getPseudo() + "' AND receiverPseudo = '" + user2.getPseudo() + "') " +
+                "OR (senderPseudo = '" + user2.getPseudo() + "' AND receiverPseudo = '" + user1.getPseudo() + "')";
 
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt  = conn.createStatement();
@@ -77,8 +79,16 @@ public class DataBase {
                 Message msg = new Message();
                 msg.setContenu(rs.getString("message"));
                 msg.setDate(rs.getString("date"));
-                msg.setEmetteur(user1);
-                msg.setDestinataire(user2);
+                if(rs.getString("senderPseudo").equals(user1.getPseudo()))
+                {
+                    msg.setEmetteur(user1);
+                    msg.setDestinataire(user2);
+                }
+                else
+                {
+                    msg.setEmetteur(user2);
+                    msg.setDestinataire(user1);
+                }
                 historique.add(msg);
             }
         } catch (SQLException e) {
@@ -86,24 +96,6 @@ public class DataBase {
             System.out.println(e.getMessage());
         }
 
-        sql = "SELECT senderPseudo, receiverPseudo, message, date FROM conversation " +
-                "WHERE senderPseudo = '" + user2.getPseudo() + "' AND receiverPseudo = '" + user1.getPseudo() + "'";
-
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql)){
-            while (rs.next()) {
-                Message msg = new Message();
-                msg.setContenu(rs.getString("message"));
-                msg.setDate(rs.getString("date"));
-                msg.setEmetteur(user2);
-                msg.setDestinataire(user1);
-                historique.add(msg);
-            }
-        } catch (SQLException e) {
-            System.out.println("erreur de récuperation l'historique\n");
-            System.out.println(e.getMessage());
-        }
         return historique;
     }
 
