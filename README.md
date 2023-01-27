@@ -13,7 +13,7 @@ Benjamin Abonneau, Yu Duan et Junjiang Guo
 
 ## Installation
 
-Clone this repository somewhere:
+1. Cloner ce répertoire quelque part :
 
     ```bash
 	git clone https://github.com/IncredibleYu/ChatSystemProject.git
@@ -27,26 +27,24 @@ Clone this repository somewhere:
 	mvn clean package
 	```
 
-2. Lancer l'application :
+2. Lancer l'application, trois solutions sont possibles :
 
-Trois solutions sont possibles :
-
-    ```bash
+	1.
+	```bash
 	mvn exec:java -Dexec.mainClass="fr.insa.gei.ChatSystemProject.Main"
 	```
 	
-OU
-    ```bash
+	2.
+	```bash
 	java -cp target/classes fr.insa.gei.ChatSystemProject.Main
 	```
 	
-OU
-
-    ```bash
+	3.
+	```bash
 	java -jar target/ChatYourFriends-jar-with-dependencies.jar
 	```
 
-La dernière solution est la meilleure.
+La troisième solution est la meilleure façon d'être sûr que l'application se lancera correctement.
 
 ## Distribution
 
@@ -56,7 +54,7 @@ La dernière solution est la meilleure.
 	mvn clean package
 	```
 	
-2. Distrubuer le fichier situé ici :
+2. Distrubuer le fichier situé ici aux utilisateurs :
 
     ```bash
 	target/ChatYourFriends-jar-with-dependencies.jar
