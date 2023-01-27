@@ -1,6 +1,6 @@
-package Models;
+package fr.insa.gei.ChatSystemProject.Models;
 
-import Protocols.UDPReceiver;
+import fr.insa.gei.ChatSystemProject.Protocols.UDPReceiver;
 
 import java.io.Serializable;
 
@@ -8,11 +8,9 @@ public class User  implements Serializable
 {
     private static final long serialVersionUID = -4507489610617393544L;
 
-    private int id;
     private String pseudo;
     private String addressIP;
     private int port;
-    private boolean pseudoIsUsed;
 
     /**
      * 1) Constructeur d'un User sans attributs
@@ -34,21 +32,14 @@ public class User  implements Serializable
         this.pseudo = pseudonym;
     }
 
-    public User(int id, String pseudo, int port)
+    public User(String pseudo)
     {
-        this.id = id;
-        this.pseudo = pseudo;
         this.addressIP = UDPReceiver.getCurrentIp().getHostAddress();
-        this.port = port;
-        this.pseudoIsUsed = false;
+        this.port = 1234;
+        this.pseudo = pseudo;
     }
 
     //-------------------- GETTEURS & SETTEURS -----------------------------//
-
-    public int getId()
-    {
-        return id;
-    }
 
     public String getPseudo()
     {

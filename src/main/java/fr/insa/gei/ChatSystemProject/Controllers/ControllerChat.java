@@ -1,14 +1,12 @@
-package Controllers;
+package fr.insa.gei.ChatSystemProject.Controllers;
 
-import Models.DataBase;
-import Models.User;
-import Packet.Packet;
-import Protocols.TCPReceiver;
-import Protocols.UDPReceiver;
-import Protocols.UDPSender;
-import Views.General;
-
-import java.io.IOException;
+import fr.insa.gei.ChatSystemProject.Models.DataBase;
+import fr.insa.gei.ChatSystemProject.Models.User;
+import fr.insa.gei.ChatSystemProject.Models.Packet;
+import fr.insa.gei.ChatSystemProject.Protocols.TCPReceiver;
+import fr.insa.gei.ChatSystemProject.Protocols.UDPReceiver;
+import fr.insa.gei.ChatSystemProject.Protocols.UDPSender;
+import fr.insa.gei.ChatSystemProject.Views.General;
 
 public class ControllerChat
 {

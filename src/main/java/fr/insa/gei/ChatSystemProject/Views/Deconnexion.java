@@ -1,6 +1,6 @@
-package Views;
+package fr.insa.gei.ChatSystemProject.Views;
 
-import Controllers.Controller;
+import fr.insa.gei.ChatSystemProject.Controllers.Controller;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

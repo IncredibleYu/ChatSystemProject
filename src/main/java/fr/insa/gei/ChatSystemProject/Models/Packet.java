@@ -1,7 +1,6 @@
-package Packet;
+package fr.insa.gei.ChatSystemProject.Models;
 
-import Controllers.UserManager;
-import Models.User;
+import fr.insa.gei.ChatSystemProject.Models.User;
 
 import java.io.Serializable;
 

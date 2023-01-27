@@ -1,13 +1,12 @@
-package Test;
+package fr.insa.gei.ChatSystemProject;
 
-import Controllers.Controller;
-import Controllers.UserManager;
-import Packet.Packet;
-import Protocols.UDPReceiver;
-import Protocols.UDPSender;
-import Views.AuthentificationView;
+import fr.insa.gei.ChatSystemProject.Controllers.Controller;
+import fr.insa.gei.ChatSystemProject.Models.Packet;
+import fr.insa.gei.ChatSystemProject.Protocols.UDPReceiver;
+import fr.insa.gei.ChatSystemProject.Protocols.UDPSender;
+import fr.insa.gei.ChatSystemProject.Views.AuthentificationView;
 
-public class TestNouvelleApplication
+public class Main
 {
     public static void main(String[] args)
     {

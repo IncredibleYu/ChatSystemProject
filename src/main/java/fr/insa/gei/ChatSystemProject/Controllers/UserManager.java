@@ -1,6 +1,6 @@
-package Controllers;
+package fr.insa.gei.ChatSystemProject.Controllers;
 
-import Models.User;
+import fr.insa.gei.ChatSystemProject.Models.User;
 import java.util.ArrayList;
 
 public class UserManager extends ArrayList<User>
@@ -12,7 +12,6 @@ public class UserManager extends ArrayList<User>
         super();
         listMembers = new ArrayList<User>();
     }
-
 
     public synchronized void addMember(User newMember)
     {
@@ -36,6 +35,10 @@ public class UserManager extends ArrayList<User>
         return count;
     }
 
+    /**
+     * Methode pour recuperer un type User d'apres son pseudo
+     * @return User user
+     */
     public synchronized User getMemberByPseudo(String pseudo)
     {
         for(User member : getAllMembers())
@@ -49,22 +52,7 @@ public class UserManager extends ArrayList<User>
     }
 
     /**
-     * Methode pour recuperer un type User d'apres son pseudp
-     * @return User user
-     */
-    public static User getUserfromPseudo(String pseudo) {
-        User toget = null;
-        for (User user : listMembers) {
-            if (user.getPseudo().equals(pseudo)) {
-                toget=user;
-                return toget;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Methode pour recuperer un type User d'apres son adresse IP
+     * Methode pour récupérer un type User d'apres son adresse IP
      * @return user avec l'ip correspondante
      */
     public synchronized User getMemberByIP(String addressIP)

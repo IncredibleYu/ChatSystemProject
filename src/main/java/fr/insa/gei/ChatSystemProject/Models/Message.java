@@ -1,4 +1,4 @@
-package Models;
+package fr.insa.gei.ChatSystemProject.Models;
 
 
 import java.text.SimpleDateFormat;

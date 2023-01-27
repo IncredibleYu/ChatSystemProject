@@ -1,12 +1,9 @@
-package Views;
+package fr.insa.gei.ChatSystemProject.Views;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.xml.crypto.Data;
 
-import Controllers.*;
-import Models.DataBase;
-import Packet.Packet;
+import fr.insa.gei.ChatSystemProject.Controllers.Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

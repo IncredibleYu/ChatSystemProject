@@ -1,9 +1,9 @@
-package Controllers;
+package fr.insa.gei.ChatSystemProject.Controllers;
 
-import Models.DataBase;
-import Models.User;
-import Protocols.UDPReceiver;
-import Protocols.UDPSender;
+import fr.insa.gei.ChatSystemProject.Models.DataBase;
+import fr.insa.gei.ChatSystemProject.Models.User;
+import fr.insa.gei.ChatSystemProject.Protocols.UDPReceiver;
+import fr.insa.gei.ChatSystemProject.Protocols.UDPSender;
 
 public class Controller {
 

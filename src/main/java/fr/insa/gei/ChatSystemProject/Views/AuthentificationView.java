@@ -1,9 +1,7 @@
-package Views;
+package fr.insa.gei.ChatSystemProject.Views;
 
-import Controllers.Controller;
-import Models.User;
-import Packet.Packet;
-import Protocols.TCPReceiver;
+import fr.insa.gei.ChatSystemProject.Controllers.Controller;
+import fr.insa.gei.ChatSystemProject.Models.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -124,7 +122,7 @@ public class AuthentificationView
                     pseudoTextField.setVisible(false);
                     choiceLabel.setVisible(false);
 
-                    User myUser = new User(0, pseudo, 1234);
+                    User myUser = new User(pseudo);
 
                     boolean PseudoIsUsed = app.getUserManager().checkUserExists(myUser.getPseudo());
                     if (PseudoIsUsed)

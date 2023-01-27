@@ -1,7 +1,7 @@
-package Protocols;
+package fr.insa.gei.ChatSystemProject.Protocols;
 
-import Controllers.Controller;
-import Packet.Packet;
+import fr.insa.gei.ChatSystemProject.Controllers.Controller;
+import fr.insa.gei.ChatSystemProject.Models.Packet;
 
 import java.io.*;
 import java.net.*;

@@ -1,12 +1,11 @@
-package Protocols;
+package fr.insa.gei.ChatSystemProject.Protocols;
 
-import Controllers.Controller;
-import Models.Message;
-import Models.User;
-import Views.General;
+import fr.insa.gei.ChatSystemProject.Controllers.Controller;
+import fr.insa.gei.ChatSystemProject.Models.Message;
+import fr.insa.gei.ChatSystemProject.Models.User;
+import fr.insa.gei.ChatSystemProject.Views.General;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 

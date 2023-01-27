@@ -1,4 +1,4 @@
-package Views;
+package fr.insa.gei.ChatSystemProject.Views;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -12,13 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.border.EtchedBorder;
 
-import Controllers.Controller;
-import Models.Message;
-import Models.User;
-import Packet.Packet;
-import Protocols.TCPReceiver;
-import Protocols.TCPSender;
-import Protocols.UDPSender;
+import fr.insa.gei.ChatSystemProject.Controllers.Controller;
+import fr.insa.gei.ChatSystemProject.Models.Message;
+import fr.insa.gei.ChatSystemProject.Models.User;
+import fr.insa.gei.ChatSystemProject.Protocols.TCPSender;
 
 import java.awt.Font;
 
@@ -281,9 +278,9 @@ public class General {
                     int userselect = usersconnected.getSelectedIndex();
                     if (userselect != -1) {
                         String usertalk = usersconnected.getSelectedValue();
-                        loadconvo(getApp().getUserManager().getUserfromPseudo(usertalk));
+                        loadconvo(getApp().getUserManager().getMemberByPseudo(usertalk));
                         getTalkingto().append("");
-                        usertalking=getApp().getUserManager().getUserfromPseudo(usersconnected.getSelectedValue());
+                        usertalking=getApp().getUserManager().getMemberByPseudo(usersconnected.getSelectedValue());
                         Chats(usertalking);
                     }
                 }
