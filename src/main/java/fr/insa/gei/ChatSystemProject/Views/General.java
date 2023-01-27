@@ -226,7 +226,7 @@ public class General {
         setTalkingto(new JTextArea());
         getTalkingto().setBackground(new Color(255,255,255));
         getTalkingto().setFont(new Font("Bahnschrift", Font.BOLD | Font.ITALIC, 18));
-        getTalkingto().setBounds(900, 60, 126, 25);
+        getTalkingto().setBounds(565, 64, 126, 31);
 
         panel.add(getTalkingto());
 
