@@ -30,7 +30,7 @@ public class Deconnexion extends JFrame {
         setBounds(100, 100, 516, 275);
 
         contentPane = new JPanel();
-        contentPane.setBackground(new Color(0, 0, 0));
+        contentPane.setBackground(new Color(238,238,238));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
@@ -68,7 +68,7 @@ public class Deconnexion extends JFrame {
         });
 
         JLabel lblNewLabel = new JLabel("Êtes-vous certain de vouloir vous déconnecter?");
-        lblNewLabel.setForeground(new Color(94, 155, 194));
+        lblNewLabel.setForeground(new Color(0,0,0));
         lblNewLabel.setFont(new Font("Comfortaa", Font.BOLD, 15));
         lblNewLabel.setBounds(80, 43, 377, 72);
         contentPane.add(lblNewLabel);

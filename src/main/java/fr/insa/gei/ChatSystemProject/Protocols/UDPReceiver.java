@@ -110,7 +110,7 @@ public class UDPReceiver extends Thread {
         }
         catch (ClassNotFoundException e)
         {
-            e.printStackTrace();
+            System.err.println("[SERVEUR] Invalid packet");
         }
         catch (IOException e)
         {

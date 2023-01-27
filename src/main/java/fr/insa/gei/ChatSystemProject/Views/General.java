@@ -164,8 +164,8 @@ public class General {
 
         // TextField pour ecrire le message a envoyer
         JTextField textField = new JTextField();
-        textField.setBounds(316, 466, 806, 67);
-        textField.setBorder(new LineBorder(new Color(204, 204, 255), 3));
+        textField.setBounds(316, 479, 806, 38);
+        textField.setBorder(new LineBorder(new Color(94, 155, 194), 3));
         textField.setBackground(Color.WHITE);
         textField.setFont(new Font("Bahnschrift", Font.PLAIN, 11));
         textField.setColumns(10);
@@ -173,8 +173,8 @@ public class General {
         // Bouton envoyer
         JButton btnSend = new JButton("Envoyer");
         btnSend.setBounds(1134, 479, 108, 38);
-        btnSend.setBorder(new LineBorder(new Color(153, 153, 255), 3));
-        btnSend.setBackground(new Color(204, 204, 255));
+        btnSend.setBorder(new LineBorder(new Color(94, 155, 194), 3));
+        btnSend.setBackground(new Color(15, 172, 31));
         btnSend.setFont(new Font("Comfortaa", Font.BOLD, 15));
 
         btnSend.addActionListener(new ActionListener() {
@@ -220,13 +220,13 @@ public class General {
         textArea.setEditable(false);
 
         //label design
-        JLabel lblTalkingwith = new JLabel("Chat avec");
-        lblTalkingwith.setBounds(330, 60, 126, 31);
+        JLabel lblTalkingwith = new JLabel("est entrain de chat avec");
+        lblTalkingwith.setBounds(330, 60, 500, 31);
         lblTalkingwith.setFont(new Font("Comfortaa", Font.BOLD | Font.ITALIC, 18));
         setTalkingto(new JTextArea());
         getTalkingto().setBackground(new Color(255,255,255));
         getTalkingto().setFont(new Font("Bahnschrift", Font.BOLD | Font.ITALIC, 18));
-        getTalkingto().setBounds(440, 60, 126, 25);
+        getTalkingto().setBounds(900, 60, 126, 25);
 
         panel.add(getTalkingto());
 

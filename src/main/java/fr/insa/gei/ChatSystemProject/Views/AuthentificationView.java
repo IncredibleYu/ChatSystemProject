@@ -30,6 +30,26 @@ public class AuthentificationView
         /* initialization */
         dimWindow = new Dimension(400, 600);
         frame = new JFrame("ChatYourFriends - Connexion");
+
+        JLabel lblChatbox = new JLabel("ChatYourFriends");
+        lblChatbox.setForeground(new Color(0,0,0));
+        lblChatbox.setAlignmentY(5.0f);
+        lblChatbox.setAlignmentX(5.0f);
+        lblChatbox.setFont(new Font("Comfortaa", Font.BOLD | Font.ITALIC, 16));
+        lblChatbox.setBackground(new Color(204, 204, 255));
+        lblChatbox.setBounds(120, 100, 240, 43);
+        frame.getContentPane().add(lblChatbox);
+
+
+        JLabel lblcreateur = new JLabel("GEI - 4IR ");
+        lblcreateur.setForeground(new Color(0,0,0));
+        lblcreateur.setAlignmentY(1.0f);
+        lblcreateur.setAlignmentX(1.0f);
+        lblcreateur.setFont(new Font("Comfortaa", Font.BOLD , 15));
+        lblcreateur.setBackground(new Color(204, 204, 255));
+        lblcreateur.setBounds(160, 150, 240, 43);
+        frame.getContentPane().add(lblcreateur);
+
         frame.setSize(dimWindow);
         frame.setLocation(new Point(750, 250));
 
@@ -42,8 +62,13 @@ public class AuthentificationView
         });
 
         choiceLabel = new JLabel("Veuillez saisir votre pseudonyme ci-dessous :", SwingConstants.LEFT);
+        choiceLabel.setBackground(new Color(94, 155, 194));
+        choiceLabel.setFont(new Font("Comfortaa", Font.BOLD, 15));
+        choiceLabel.setBounds(114, 65, 240, 43);
+
         pseudoTextField = new JTextField();
         pseudoTextField.setPreferredSize(new Dimension(250,25));
+        pseudoTextField.setBackground(new Color(255, 255, 240));
         pseudoTextField.setHorizontalAlignment(JTextField.CENTER);
         messageLabel = new JLabel("", SwingConstants.LEFT);
         messageLabel.setVisible(false);
@@ -73,6 +98,9 @@ public class AuthentificationView
     public void addButton()
     {
         button = new JButton("OK");
+        button.setBackground(new Color(94, 155, 194));
+        button.setFont(new Font("Comfortaa", Font.BOLD, 13));
+
         button.addActionListener(new ActionListener()
         {
             @Override

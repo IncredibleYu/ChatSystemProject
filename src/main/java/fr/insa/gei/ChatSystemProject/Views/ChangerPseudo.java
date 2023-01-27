@@ -41,15 +41,15 @@ public class ChangerPseudo extends JFrame {
         setBounds(100, 100, 516, 275);
 
         contentPane = new JPanel();
-        contentPane.setBackground(new Color(0, 0, 0));
+        contentPane.setBackground(new Color(238,238,238));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
         //Message pour choisir le nouveau pseudo
         JLabel lblNewLabel = new JLabel("Choisis votre nouveau pseudo\r\n");
-        lblNewLabel.setForeground(new Color(204, 223, 255));
-        lblNewLabel.setBackground(new Color(94, 155, 194));
+        lblNewLabel.setForeground(new Color(0,0,0));
+        lblNewLabel.setBackground(new Color(0,0,0));
         lblNewLabel.setFont(new Font("Comfortaa", Font.BOLD, 15));
         lblNewLabel.setBounds(114, 65, 240, 43);
         contentPane.add(lblNewLabel);
