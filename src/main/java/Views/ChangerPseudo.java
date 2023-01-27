@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Classe qui represente la fenetre pour changer le pseudp
@@ -62,7 +64,8 @@ public class ChangerPseudo extends JFrame {
         textField.setBounds(114, 102, 224, 36);
         contentPane.add(textField);
         textField.setColumns(10);
-        textField.addMouseListener(new MouseListener() {
+        textField.addMouseListener(new MouseListener()
+        {
             @Override
             public void mouseReleased(MouseEvent e) {}
             @Override
@@ -96,7 +99,8 @@ public class ChangerPseudo extends JFrame {
     /**
      * Methode pour verifier l'unicité du pseudo
      */
-    public class Connect implements ActionListener {
+    public class Connect implements ActionListener
+    {
 
         private ChangerPseudo window;
 
@@ -106,72 +110,55 @@ public class ChangerPseudo extends JFrame {
         }
 
         @Override
-        public void actionPerformed(ActionEvent arg0) {
+        public void actionPerformed(ActionEvent actionEvent)
+        {
             String pseudo=textField.getText();
 
-            if(pseudo.length()>12) {
-                JTextPane txtlongpseudo = new JTextPane();
-                txtlongpseudo.setText("Pseudo est trop long.");
-                txtlongpseudo.setForeground(new Color(255, 51, 51));
-                txtlongpseudo.setFont(new Font("Bahnschrift", Font.BOLD | Font.ITALIC, 11));
-                txtlongpseudo.setBackground(SystemColor.menu);
-                txtlongpseudo.setBounds(114, 75, 240, 20);
-                contentPane.add(txtlongpseudo);
-                textField.addMouseListener(new MouseListener() {
-                    @Override
-                    public void mouseReleased(MouseEvent e) {}
-                    @Override
-                    public void mousePressed(MouseEvent e) {}
-                    @Override
-                    public void mouseExited(MouseEvent e) {}
-                    @Override
-                    public void mouseEntered(MouseEvent e) {}
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        JTextField texteField = ((JTextField)e.getSource());
-                        texteField.setText("");
-                        texteField.getFont().deriveFont(Font.PLAIN);
-                        texteField.setForeground(Color.black);
-                        texteField.removeMouseListener(this);
-                    }
-                });
+            //JTextPane txtPseudo= new JTextPane();
+            JTextPane txtPseudo= new JTextPane();
+            txtPseudo.setFont(new Font("Bahnschrift", Font.BOLD | Font.ITALIC, 11));
+            contentPane.add(txtPseudo);
+
+            if(pseudo.length() < 6)
+            {
+                txtPseudo.setText("ERREUR : Votre pseudo doit contenir au minimum 6 caractères.");
+                txtPseudo.setForeground(new Color(255, 51, 51));
+                txtPseudo.setBackground(SystemColor.menu);
+                txtPseudo.setBounds(114, 145, 224, 50);
+                return;
+            }
+
+            if(pseudo.length() > 12)
+            {
+                txtPseudo.setText("ERREUR : Votre pseudo doit contenir au maximum 12 caractères.");
+                txtPseudo.setForeground(new Color(255, 51, 51));
+                txtPseudo.setBackground(SystemColor.menu);
+                txtPseudo.setBounds(114, 145, 224, 50);
+                return;
+            }
+
+            Matcher matcherPseudo = Pattern.compile("[^a-zA-Z0-9]").matcher(pseudo);
+            if(matcherPseudo.find()) // Si le pseudo contient des caractères spéciaux
+            {
+                txtPseudo.setText("ERREUR : Votre pseudo contient des caractères spéciaux. Seuls les lettres de l'alphabet et les chiffres sont autorisés.");
+                txtPseudo.setForeground(new Color(255, 51, 45));
+                txtPseudo.setBackground(SystemColor.menu);
+                txtPseudo.setBounds(114, 145, 224, 50);
+                return;
+            }
+
+            if (app.getUserManager().appartient(pseudo))
+            {
+                txtPseudo.setText("ERREUR : Ce pseudo déjà utilisé par un autre utilisateur, veuillez choisir un autre pseudo.");
+                txtPseudo.setForeground(new Color(255, 51, 45));
+                txtPseudo.setBackground(SystemColor.menu);
+                txtPseudo.setBounds(114, 145, 224, 50);
+                return;
             }
             else
             {
-                if (!app.getUserManager().appartient(pseudo))
-                {
-                    app.getcSystem().editNickname(pseudo);
-                    window.dispose();
-                }
-                else
-                {
-                    JTextPane txtpnPseudonymAlreadyIn = new JTextPane();
-                    txtpnPseudonymAlreadyIn.setText("Pseudo déjà utilisé. Veuillez en choisir un autre");
-                    txtpnPseudonymAlreadyIn.setBackground(new Color(0,0,0));
-                    txtpnPseudonymAlreadyIn.setForeground(new Color(94, 155, 194));
-                    txtpnPseudonymAlreadyIn.setFont(new Font("Bahnschrift", Font.BOLD | Font.ITALIC, 11));
-                    txtpnPseudonymAlreadyIn.setBounds(103, 80, 350, 14);
-
-                    contentPane.add(txtpnPseudonymAlreadyIn);
-                    textField.addMouseListener(new MouseListener() {
-                        @Override
-                        public void mouseReleased(MouseEvent e) {}
-                        @Override
-                        public void mousePressed(MouseEvent e) {}
-                        @Override
-                        public void mouseExited(MouseEvent e) {}
-                        @Override
-                        public void mouseEntered(MouseEvent e) {}
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            JTextField texteField = ((JTextField)e.getSource());
-                            texteField.setText("");
-                            texteField.getFont().deriveFont(Font.PLAIN);
-                            texteField.setForeground(Color.black);
-                            texteField.removeMouseListener(this);
-                        }
-                    });
-                }
+                app.getcSystem().editNickname(pseudo);
+                window.dispose();
             }
         }
     }

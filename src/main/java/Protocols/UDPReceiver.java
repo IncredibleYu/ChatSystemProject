@@ -100,9 +100,13 @@ public class UDPReceiver extends Thread {
                 }
             }
         }
+        catch (InvalidClassException e)
+        {
+            System.err.println("[SERVEUR] Invalid packet");
+        }
         catch (SocketException e)
         {
-            System.err.println("[CLIENT] Socket closed");
+            System.err.println("[SERVEUR] Socket closed");
         }
         catch (ClassNotFoundException e)
         {

@@ -46,23 +46,6 @@ public class ControllerChat
      */
     public void Connexion(User newUser)
     {
-        /*udplisten.setCas(1);
-        udplisten.start();
-        int port = 4445;
-        try
-        {
-            UDPSender.envoiebroadcast(("CONNEXION_" + newPseudo + "_" + getApp().getActu().getIP() + "_" + port), port);
-            Thread.sleep(2000);
-        } catch (Exception e)
-        {
-            System.out.println("Erreur broadcast dans Connexion");
-        } finally
-        {
-            getApp().getActu().setPseudo(newPseudo);
-            udplisten.setCas(3);
-        }
-        return udplisten.isDisponible();*/
-
         app.setActu(newUser);
 
         TCPReceiver tcp = new TCPReceiver("SERVEUR", app);
@@ -77,23 +60,6 @@ public class ControllerChat
 
     public void editNickname(String newPseudo)
     {
-        /*serverUDP.setCas(2);
-        try
-        {
-            //System.out.println("Tentative de changement de pseudo en broadcast");
-            UDPSender.envoiebroadcast(("CHANGEMENTPSEUDO_" + newPseudo + "_" + getApp().getActu().getIP() + "_" + getApp().getActu().getPort()), port);
-            Thread.sleep(2000); //on attends les réponses
-        } catch (Exception e)
-        {
-            System.out.println("Erreur broadcast dans ChangePseudo");
-        } finally
-        {
-            getApp().getActu().setPseudo(newPseudo);
-            serverUDP.setCas(3);
-
-        }
-        return serverUDP.isDisponible();*/
-
         String oldPseudo = app.getActu().getPseudo();
         app.getActu().setPseudo(newPseudo);
         DataBase.updateMessages(oldPseudo, newPseudo);
